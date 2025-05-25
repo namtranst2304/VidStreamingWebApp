@@ -33,3 +33,4 @@ This is a React-based video streaming dashboard called StreamSync built with:
 
 ## Testing and Debugging
 - Only allow testing and debugging on 1 localhost
+- Right command to run: cd "e:\NamDev\VidStreamingWebApp"; npm run dev

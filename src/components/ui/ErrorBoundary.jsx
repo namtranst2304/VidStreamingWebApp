@@ -4,10 +4,9 @@ import { AlertTriangle, RefreshCw } from 'lucide-react';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
-  }
+    this.state = { hasError: false, error: null, errorInfo: null };  }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(_error) {
     return { hasError: true };
   }
 
@@ -16,9 +15,8 @@ class ErrorBoundary extends React.Component {
       error,
       errorInfo
     });
-    
-    // Log error to console in development
-    if (process.env.NODE_ENV === 'development') {
+      // Log error to console in development
+    if (import.meta.env.DEV) {
       console.error('ErrorBoundary caught an error:', error, errorInfo);
     }
   }
@@ -64,7 +62,7 @@ class ErrorBoundary extends React.Component {
               </button>
             </div>
             
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {import.meta.env.DEV && this.state.error && (
               <details className="mt-6 text-left">
                 <summary className="cursor-pointer text-gray-400 hover:text-white">
                   Show Error Details

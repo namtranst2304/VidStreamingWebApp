@@ -7,7 +7,6 @@ import {
   NotificationSystem,
   FloatingActionButton,
   ErrorBoundary,
-  PerformanceMonitor,
   // Modal components (always loaded)
   KeyboardShortcutsModal,
   // Player components
@@ -137,8 +136,6 @@ function App() {
         onClose={() => setShowShortcuts(false)}
       />      {/* Floating Action Button */}
       <FloatingActionButton />
-        {/* Performance Monitor (dev only) */}
-      <PerformanceMonitor />
     </div>
   );
 }

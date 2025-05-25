@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from 'framer-motion';
 import { Search, X, Play, Clock, Star, List } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';

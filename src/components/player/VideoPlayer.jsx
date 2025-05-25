@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 import { Play, Upload, Link, ChevronDown, File, Folder, X, Video, AlertCircle } from 'lucide-react';
+import { Button } from '../ui';
 import useAppStore from '../../store/useAppStore';
 import OnlinePlayer from './OnlinePlayer';
 import LocalPlayer from './LocalPlayer';
@@ -281,37 +283,35 @@ const VideoPlayer = () => {
               placeholder="Enter video URL (YouTube, Vimeo, Twitch) or local file path..."
               className="input-glass w-full px-3 py-2 text-sm"
             />
-          </div>          <button
+          </div>          <Button
             onClick={handleLoadVideo}
             disabled={!isValidUrl}
-            className={`btn-glass px-4 py-2 text-sm ${
-              isValidUrl
-                ? 'hover:bg-purple-500/20 border-purple-500/30'
-                : 'opacity-50 cursor-not-allowed'
-            }`}
+            variant={isValidUrl ? "primary" : "secondary"}
+            icon={Link}
+            size="sm"
           >
-            <Link className="w-3 h-3 inline mr-1" />
             Load
-          </button>
+          </Button>
           
           {/* Upload Button with Dropdown */}
-          <div className="relative upload-dropdown">
-            <button
+          <div className="relative upload-dropdown">            <Button
               onClick={() => setShowUploadOptions(!showUploadOptions)}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2 text-sm"
+              variant="primary"
+              icon={Upload}
+              size="sm"
+              className="flex items-center gap-2"
             >
-              <Upload className="w-3 h-3" />
               Upload
               <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${showUploadOptions ? 'rotate-180' : ''}`} />
-            </button>
+            </Button>
             
             {/* Upload Options Dropdown */}
             {showUploadOptions && (
               <div className="absolute top-11 right-0 glass-card border border-white/20 rounded-xl p-2 min-w-52 z-[99999] shadow-2xl">
-                <div className="space-y-1">
-                  <button
+                <div className="space-y-1">                  <Button
                     onClick={handleFileUploadClick}
-                    className="w-full text-left px-3 py-2 text-white hover:bg-white/10 rounded-lg transition-all duration-200 flex items-center gap-2 group"
+                    variant="ghost"
+                    className="w-full text-left px-3 py-2 text-white hover:bg-white/10 rounded-lg transition-all duration-200 flex items-center gap-2 group justify-start"
                   >
                     <div className="w-6 h-6 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
                       <File className="w-3 h-3 text-blue-400" />
@@ -320,11 +320,11 @@ const VideoPlayer = () => {
                       <div className="font-medium text-xs">Upload Files</div>
                       <div className="text-xs text-gray-400">Select single or multiple video files</div>
                     </div>
-                  </button>
-                  
-                  <button
+                  </Button>
+                    <Button
                     onClick={handleFolderUploadClick}
-                    className="w-full text-left px-3 py-2 text-white hover:bg-white/10 rounded-lg transition-all duration-200 flex items-center gap-2 group"
+                    variant="ghost"
+                    className="w-full text-left px-3 py-2 text-white hover:bg-white/10 rounded-lg transition-all duration-200 flex items-center gap-2 group justify-start"
                   >
                     <div className="w-6 h-6 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
                       <Folder className="w-3 h-3 text-green-400" />
@@ -333,7 +333,7 @@ const VideoPlayer = () => {
                       <div className="font-medium text-xs">Upload Folder</div>
                       <div className="text-xs text-gray-400">Select an entire folder with videos</div>
                     </div>
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -360,12 +360,13 @@ const VideoPlayer = () => {
                 <Play className="w-8 h-8" />
               </div>
               <h3 className="text-lg font-semibold mb-2">No video selected</h3>
-              <p className="mb-4">Load a video URL or upload a local file to start playing</p>              <button
+              <p className="mb-4">Load a video URL or upload a local file to start playing</p>              <Button
                 onClick={() => setActiveTab('dashboard')}
-                className="btn-primary px-4 py-2"
+                variant="primary"
+                className="px-4 py-2"
               >
                 Browse Videos
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -390,30 +391,25 @@ const VideoPlayer = () => {
               onChange={e => setPlaylistName(e.target.value)}
               placeholder="Playlist name"
             />
-            <div className="flex gap-3 mt-4">              <motion.button
+            <div className="flex gap-3 mt-4">              <Button
                 onClick={() => handlePopupAction('save')}
-                className="btn-primary flex-1 font-medium"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                variant="primary"
+                className="flex-1 font-medium"
               >
                 Create Playlist
-              </motion.button>
-              <motion.button
+              </Button>              <Button
                 onClick={() => handlePopupAction('session')}
-                className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                variant="secondary"
+                className="flex-1"
               >
                 Just Play
-              </motion.button>
-              <motion.button
+              </Button>              <Button
                 onClick={() => handlePopupAction('cancel')}
-                className="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors font-medium"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                variant="ghost"
+                className="flex-1"
               >
                 Cancel
-              </motion.button>
+              </Button>
             </div>
           </motion.div>
         </div>

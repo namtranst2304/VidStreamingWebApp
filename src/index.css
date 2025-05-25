@@ -100,10 +100,9 @@
     box-shadow: 
       0 4px 24px rgba(0, 0, 0, 0.06),
       0 1px 0 rgba(255, 255, 255, 0.9) inset;
-  }
-  /* Dark Theme Buttons */
+  }  /* Dark Theme Buttons */
   .dark .btn-primary {
-    padding: 1.5rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     color: white;
     font-weight: 500;
     border-radius: 0.75rem;
@@ -122,6 +121,49 @@
       0 6px 25px rgba(59, 130, 246, 0.4),
       0 1px 0 rgba(255, 255, 255, 0.25) inset;
     transform: translateY(-1px);
+  }
+
+  .dark .btn-secondary {
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(200%);
+    box-shadow: 
+      0 2px 12px rgba(0, 0, 0, 0.2),
+      0 1px 0 rgba(255, 255, 255, 0.1) inset;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.25),
+      0 1px 0 rgba(255, 255, 255, 0.15) inset;
+    transform: translateY(-1px);
+  }
+
+  .dark .btn-icon {
+    padding: 0.5rem;
+    color: white;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(200%);
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dark .btn-icon:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.25),
+      0 1px 0 rgba(255, 255, 255, 0.12) inset;
+    transform: scale(1.05);
   }
   .dark .btn-glass {
     padding: 0.5rem 1rem;
@@ -142,10 +184,9 @@
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.25),
       0 1px 0 rgba(255, 255, 255, 0.12) inset;
-  }
-  /* Light Theme Buttons */
+  }  /* Light Theme Buttons */
   .light .btn-primary {
-    padding: 1.5rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     color: white;
     font-weight: 500;
     border-radius: 0.75rem;
@@ -164,6 +205,49 @@
       0 6px 25px rgba(59, 130, 246, 0.35),
       0 1px 0 rgba(255, 255, 255, 0.5) inset;
     transform: translateY(-1px);
+  }
+
+  .light .btn-secondary {
+    padding: 0.5rem 1rem;
+    color: #374151;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(20px) saturate(200%);
+    box-shadow: 
+      0 2px 12px rgba(0, 0, 0, 0.08),
+      0 1px 0 rgba(255, 255, 255, 0.6) inset;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .light .btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.08);
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.12),
+      0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    transform: translateY(-1px);
+  }
+
+  .light .btn-icon {
+    padding: 0.5rem;
+    color: #374151;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    background: rgba(0, 0, 0, 0.03);
+    backdrop-filter: blur(20px) saturate(200%);
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .light .btn-icon:hover {
+    background: rgba(0, 0, 0, 0.06);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    transform: scale(1.05);
   }
   .light .btn-glass {
     padding: 0.5rem 1rem;

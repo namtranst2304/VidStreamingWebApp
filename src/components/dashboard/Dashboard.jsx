@@ -1,9 +1,12 @@
 import { memo, useMemo } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { Play, Plus, MoreHorizontal, Star, Clock, Eye, Tag, TrendingUp, Users, Activity, Calendar } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
+import { Button } from '../ui';
 
 // Memoized components for better performance
+// eslint-disable-next-line no-unused-vars
 const QuickStatsCard = memo(({ icon: IconComponent, title, value, gradient }) => (
   <div className="glass-card p-4">
     <div className="flex items-center gap-3">
@@ -53,16 +56,17 @@ const VideoCard = memo(({ video, index, onPlay, onToggleFavorite, isFavorite }) 
           <span className="uppercase">{video.source}</span>
         </div>
       </div>
-      
-      <button
+        <Button
         onClick={(e) => {
           e.stopPropagation();
           onToggleFavorite(video.id);
         }}
-        className="ml-2 p-1 hover:bg-white/10 rounded transition-colors"
+        variant="glass"
+        size="icon"
+        className="ml-2"
       >
         <Star className={`w-4 h-4 ${isFavorite ? 'text-yellow-400 fill-current' : 'text-gray-400'}`} />
-      </button>
+      </Button>
     </div>
   </motion.div>
 ));
@@ -207,17 +211,18 @@ const Dashboard = () => {
               src={featuredVideo.thumbnail} 
               alt={featuredVideo.title}
               className="w-80 h-48 rounded-xl object-cover shadow-2xl group-hover:scale-105 transition-transform duration-300"
-            />
-            <motion.button
+            />            <motion.div
               onClick={() => handlePlayVideo(featuredVideo)}
-              className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
             >
-              <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+              <motion.div 
+                className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
                 <Play className="w-6 h-6 text-black ml-1" />
-              </div>
-            </motion.button>
+              </motion.div>
+            </motion.div>
           </div>
 
           {/* Video Info */}
@@ -250,45 +255,38 @@ const Dashboard = () => {
                     </span>
                   ))}
                 </div>
-              </div>
-
-              <button
+              </div>              <Button
                 onClick={() => toggleFavorite(featuredVideo.id)}
-                className="btn-glass p-3"
+                variant="glass"
+                size="icon"
               >
                 <Star className={`w-5 h-5 ${favorites.includes(featuredVideo.id) ? 'text-yellow-400 fill-current' : 'text-gray-400'}`} />
-              </button>
+              </Button>
             </div>
 
             {/* Action Buttons */}
             <div className="flex gap-4">
-              <motion.button
+              <Button
                 onClick={() => handlePlayVideo(featuredVideo)}
-                className="btn-primary flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                variant="primary"
+                icon={<Play className="w-4 h-4" />}
               >
-                <Play className="w-4 h-4" />
                 Watch Now
-              </motion.button>
+              </Button>
               
-              <motion.button
+              <Button
                 onClick={() => handleAddToPlaylist(featuredVideo.id)}
-                className="btn-glass flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                variant="glass"
+                icon={<Plus className="w-4 h-4" />}
               >
-                <Plus className="w-4 h-4" />
                 Add to Playlist
-              </motion.button>
+              </Button>
               
-              <motion.button
-                className="btn-glass p-3"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <MoreHorizontal className="w-4 h-4" />
-              </motion.button>
+              <Button
+                variant="glass"
+                size="icon"
+                icon={<MoreHorizontal className="w-4 h-4" />}
+              />
             </div>
           </div>
         </div>
@@ -298,10 +296,9 @@ const Dashboard = () => {
         {/* Main Content - Suggested Videos */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">You Might Like</h2>
-            <button className="text-blue-400 hover:text-blue-300 transition-colors">
+            <h2 className="text-2xl font-bold text-white">You Might Like</h2>            <Button className="text-blue-400 hover:text-blue-300 transition-colors" variant="ghost">
               View All
-            </button>
+            </Button>
           </div>          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {suggestedVideos.map((video, index) => (
               <VideoCard
@@ -357,18 +354,27 @@ const Dashboard = () => {
           >
             <h3 className="text-xl font-semibold text-white mb-4">Quick Actions</h3>
             <div className="space-y-3">
-              <button className="w-full text-left p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors flex items-center gap-3">
-                <Plus className="w-4 h-4 text-blue-400" />
+              <Button
+                variant="glass"
+                className="w-full justify-start gap-3"
+                icon={<Plus className="w-4 h-4 text-blue-400" />}
+              >
                 <span className="text-white">Create Playlist</span>
-              </button>
-              <button className="w-full text-left p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors flex items-center gap-3">
-                <Calendar className="w-4 h-4 text-green-400" />
+              </Button>
+              <Button
+                variant="glass"
+                className="w-full justify-start gap-3"
+                icon={<Calendar className="w-4 h-4 text-green-400" />}
+              >
                 <span className="text-white">Schedule Learning</span>
-              </button>
-              <button className="w-full text-left p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors flex items-center gap-3">
-                <TrendingUp className="w-4 h-4 text-purple-400" />
+              </Button>
+              <Button
+                variant="glass"
+                className="w-full justify-start gap-3"
+                icon={<TrendingUp className="w-4 h-4 text-purple-400" />}
+              >
                 <span className="text-white">View Statistics</span>
-              </button>
+              </Button>
             </div>
           </motion.div>          {/* Today's Goal */}
           <motion.div

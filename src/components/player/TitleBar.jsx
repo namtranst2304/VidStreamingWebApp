@@ -13,6 +13,7 @@ import {
   FolderPlus
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
+import { Button } from '../ui';
 
 /**
  * TitleBar - Component xử lý thanh tiêu đề video  
@@ -290,17 +291,18 @@ const TitleBar = memo(({
 
         {/* Action Buttons */}
         <div className={`flex items-center ${compact ? 'gap-1' : 'gap-2'} flex-shrink-0`}>         
-          
-          {/* Add to Playlist Button with Dropdown */}
+            {/* Add to Playlist Button with Dropdown */}
           <div className="relative" ref={dropdownRef}>
-            <button
+            <Button
               onClick={() => setShowPlaylistDropdown(!showPlaylistDropdown)}
-              className={`${compact ? 'p-1' : 'p-1.5'} text-white bg-white/20 hover:bg-white/30 rounded-lg transition-all hover:scale-110 active:scale-90 flex items-center gap-1`}
+              variant="glass"
+              size={compact ? "sm" : "icon"}
+              className={compact ? 'p-1' : 'p-1.5'}
               title="Add to Playlist"
             >
               <Plus size={compact ? 12 : 14} />
               {!compact && <ChevronDown size={compact ? 10 : 12} />}
-            </button>            {/* Dropdown Menu - Shows upward */}
+            </Button>{/* Dropdown Menu - Shows upward */}
             {showPlaylistDropdown && (
               <div className="absolute bottom-full right-0 mb-2 bg-black/80 backdrop-blur-md border border-white/20 rounded-lg shadow-xl z-50 min-w-48">
                 <div className="p-2">
@@ -350,18 +352,18 @@ const TitleBar = memo(({
                   )}                </div>
               </div>
             )}
-          </div>
-
-          {/* View Playlists Button with Dropdown */}
+          </div>          {/* View Playlists Button with Dropdown */}
           <div className="relative" ref={viewPlaylistsDropdownRef}>
-            <button
+            <Button
               onClick={() => setShowViewPlaylistsDropdown(!showViewPlaylistsDropdown)}
-              className={`${compact ? 'p-1' : 'p-1.5'} text-white bg-white/20 hover:bg-white/30 rounded-lg transition-all hover:scale-110 active:scale-90 flex items-center gap-1`}
+              variant="glass"
+              size={compact ? "sm" : "icon"}
+              className={compact ? 'p-1' : 'p-1.5'}
               title="View Playlists"
             >
               <SquareLibrary size={compact ? 12 : 14} />
               {!compact && <ChevronDown size={compact ? 10 : 12} />}
-            </button>
+            </Button>
 
             {/* Dropdown Menu - Shows upward */}
             {showViewPlaylistsDropdown && (
@@ -407,69 +409,82 @@ const TitleBar = memo(({
               </div>
             )}
           </div>
-                    
-          {/* Favorite Button */}
-          <button
+                      {/* Favorite Button */}
+          <Button
             onClick={handleFavoriteToggle}
-            className={`${compact ? 'p-1' : 'p-1.5'} rounded-lg transition-all hover:scale-110 active:scale-90 ${
+            variant="glass"
+            size={compact ? "sm" : "icon"}
+            className={`${compact ? 'p-1' : 'p-1.5'} ${
               favorites.includes(video.id)
                 ? 'text-red-500 bg-red-500/20'
-                : 'text-white bg-white/20 hover:bg-white/30'
+                : 'text-white'
             }`}
             title={favorites.includes(video.id) ? 'Remove from favorites' : 'Add to favorites'}
           >
             <Heart size={compact ? 12 : 14} fill={favorites.includes(video.id) ? 'currentColor' : 'none'} />
-          </button> 
-
-          {/* Share Button */}
-          <button
+          </Button>          {/* Share Button */}
+          <Button
             onClick={handleShare}
-            className={`${compact ? 'p-1' : 'p-1.5'} text-white bg-white/20 hover:bg-white/30 rounded-lg transition-all hover:scale-110 active:scale-90`}
+            variant="glass"
+            size={compact ? "sm" : "icon"}
+            className={compact ? 'p-1' : 'p-1.5'}
             title="Copy URL"
           >
             <Share2 size={compact ? 12 : 14} />
-          </button>          {/* Download Button - Only for online videos */}
+          </Button>
+
+          {/* Download Button - Only for online videos */}
           {isOnlineVideo && (
-            <button
+            <Button
               onClick={handleDownload}
-              className={`${compact ? 'p-1' : 'p-1.5'} text-white bg-white/20 hover:bg-white/30 rounded-lg transition-all hover:scale-110 active:scale-90`}
+              variant="glass"
+              size={compact ? "sm" : "icon"}
+              className={compact ? 'p-1' : 'p-1.5'}
               title="Download Video (or open in new tab for platform videos)"
             >
               <Download size={compact ? 12 : 14} />
-            </button>
-          )}{/* Picture in Picture Button */}
-          <button
+            </Button>
+          )}
+
+          {/* Picture in Picture Button */}
+          <Button
             onClick={handlePiPToggle}
-            className={`${compact ? 'p-1' : 'p-1.5'} text-white bg-white/20 hover:bg-white/30 rounded-lg transition-all hover:scale-110 active:scale-90`}
+            variant="glass"
+            size={compact ? "sm" : "icon"}
+            className={compact ? 'p-1' : 'p-1.5'}
             title="Picture in Picture"
           >
             <PictureInPicture size={compact ? 12 : 14} />
-          </button>
+          </Button>
 
           {/* Playlist Toggle Button - Only for local videos with playlist */}
           {showPlaylistToggle && onPlaylistToggle && (
-            <button
+            <Button
               onClick={onPlaylistToggle}
-              className={`${compact ? 'p-1' : 'p-1.5'} rounded-lg transition-all duration-200 ${
+              variant="glass"
+              size={compact ? "sm" : "icon"}
+              className={`${compact ? 'p-1' : 'p-1.5'} ${
                 isPlaylistVisible 
                   ? 'text-purple-400 bg-purple-500/20 shadow-md' 
-                  : 'text-white bg-white/20 hover:bg-white/30'
+                  : 'text-white'
               }`}
               title="Toggle Queue"
             >
               <List size={compact ? 12 : 14} />
-            </button>
+            </Button>
           )}
 
           {/* Open in New Tab - Only for online videos */}
           {isOnlineVideo && (
-            <button
+            <Button
               onClick={openInNewTab}
-              className={`${compact ? 'p-1' : 'p-1.5'} text-white bg-white/20 hover:bg-white/30 rounded-lg transition-all hover:scale-110 active:scale-90`}
+              variant="glass"
+              size={compact ? "sm" : "icon"}
+              className={compact ? 'p-1' : 'p-1.5'}
               title="Open in new tab"
             >
               <ExternalLink size={compact ? 12 : 14} />
-            </button>
+            </Button>
           )}
         </div>
       </div>

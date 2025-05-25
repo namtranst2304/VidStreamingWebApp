@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { 
   Sun, 
@@ -17,6 +18,7 @@ import {
   RotateCcw
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
+import { Button } from '../ui';
 
 function Settings() {
   const {
@@ -291,28 +293,24 @@ function Settings() {
                   <span className="text-purple-400 font-medium">{storageInfo.estimatedMB} MB</span>
                 </div>
               </div>
-            </div>
-
-            <div className="space-y-3">
-              <motion.button
+            </div>            <div className="space-y-3">
+              <Button
                 onClick={() => setShowConfirmClear('history')}
-                className="w-full flex items-center justify-between p-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                variant="secondary"
+                className="w-full justify-between bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/20"
               >
                 <span>Clear Watch History</span>
                 <Trash2 size={18} />
-              </motion.button>
+              </Button>
 
-              <motion.button
+              <Button
                 onClick={() => setShowConfirmClear('favorites')}
-                className="w-full flex items-center justify-between p-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                variant="secondary"
+                className="w-full justify-between bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/20"
               >
                 <span>Clear Favorites</span>
                 <Trash2 size={18} />
-              </motion.button>
+              </Button>
             </div>
           </div>
         </SettingCard>
@@ -326,43 +324,33 @@ function Settings() {
           <div className="space-y-4">
             <p className="text-sm text-gray-400">
               This will reset all your preferences but won't affect your saved videos, playlists, or history.
-            </p>
-            <motion.button
+            </p>            <Button
               onClick={resetToDefaults}
-              className="w-full flex items-center justify-center gap-2 p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              variant="secondary"
+              className="w-full"
+              icon={<RotateCcw size={18} />}
             >
-              <RotateCcw size={18} />
               Reset to Defaults
-            </motion.button>
+            </Button>
           </div>
         </SettingCard>
-      </div>
-
-      {/* Action Buttons */}
+      </div>      {/* Action Buttons */}
       <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-white/10">
-        <motion.button
+        <Button
           onClick={() => window.location.reload()}
-          className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-xl transition-colors flex items-center gap-2"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          variant="secondary"
         >
           Cancel
-        </motion.button>        <motion.button
+        </Button>
+        
+        <Button
           onClick={saveSettings}
-          className={`px-6 py-3 rounded-xl transition-colors flex items-center gap-2 ${
-            hasUnsavedChanges 
-              ? 'bg-purple-600 hover:bg-purple-700 text-white' 
-              : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-          }`}
-          whileHover={hasUnsavedChanges ? { scale: 1.05 } : {}}
-          whileTap={hasUnsavedChanges ? { scale: 0.95 } : {}}
+          variant={hasUnsavedChanges ? "primary" : "secondary"}
           disabled={!hasUnsavedChanges}
+          icon={<Save size={20} />}
         >
-          <Save size={20} />
           {hasUnsavedChanges ? 'Save Changes' : 'All Changes Saved'}
-        </motion.button>
+        </Button>
       </div>
 
       {/* Confirmation Modal */}
@@ -384,24 +372,21 @@ function Settings() {
             </h3>
             <p className="text-gray-400 mb-6">
               This action cannot be undone. All your {showConfirmClear === 'history' ? 'watch history' : 'favorite videos'} will be permanently removed.
-            </p>
-            <div className="flex gap-3">
-              <motion.button
+            </p>            <div className="flex gap-3">
+              <Button
                 onClick={() => setShowConfirmClear(null)}
-                className="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                variant="secondary"
+                className="flex-1"
               >
                 Cancel
-              </motion.button>
-              <motion.button
+              </Button>
+              <Button
                 onClick={() => handleClearData(showConfirmClear)}
-                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                variant="primary"
+                className="flex-1 bg-red-600 hover:bg-red-700"
               >
                 Clear
-              </motion.button>
+              </Button>
             </div>
           </motion.div>
         </motion.div>

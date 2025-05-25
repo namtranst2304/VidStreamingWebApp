@@ -1,4 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Play, 
   List,
@@ -10,6 +12,7 @@ import {
   Edit3,
   MoreVertical
 } from 'lucide-react';
+import { Button } from '../ui';
 import useAppStore from '../../store/useAppStore';
 
 const Playlists = () => {
@@ -99,14 +102,14 @@ const Playlists = () => {
                   />
                   
                   {/* Play Overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
-                    <motion.button
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">                    <Button
                       onClick={() => playPlaylist(playlist)}
+                      variant="glass"
+                      size="icon"
                       className="opacity-0 group-hover:opacity-100 w-16 h-16 bg-white/90 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                      whileTap={{ scale: 0.9 }}
                     >
                       <Play className="w-6 h-6 text-black ml-1" />
-                    </motion.button>
+                    </Button>
                   </div>
 
                   {/* Video Count Badge */}
@@ -115,13 +118,14 @@ const Playlists = () => {
                   </div>
 
                   {/* Options Menu */}
-                  <div className="absolute top-2 left-2">
-                    <button
+                  <div className="absolute top-2 left-2">                    <Button
                       onClick={() => setShowOptions(showOptions === playlist.id ? null : playlist.id)}
+                      variant="glass"
+                      size="icon"
                       className="bg-black/70 text-white p-1 rounded transition-colors hover:bg-black/90"
                     >
                       <MoreVertical className="w-4 h-4" />
-                    </button>
+                    </Button>
 
                     <AnimatePresence>
                       {showOptions === playlist.id && (
@@ -130,21 +134,24 @@ const Playlists = () => {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.9 }}
                           className="absolute top-8 left-0 bg-black/90 backdrop-blur-sm rounded-lg p-2 min-w-32 z-10"
-                        >
-                          <button className="w-full text-left text-white text-sm py-1 px-2 hover:bg-white/10 rounded flex items-center gap-2">
+                        >                          <Button 
+                            variant="ghost"
+                            className="w-full text-left text-white text-sm py-1 px-2 hover:bg-white/10 rounded flex items-center gap-2 justify-start"
+                          >
                             <Edit3 className="w-3 h-3" />
                             Edit
-                          </button>
-                          <button 
+                          </Button>
+                          <Button 
                             onClick={() => {
                               deletePlaylist(playlist.id);
                               setShowOptions(null);
                             }}
-                            className="w-full text-left text-red-400 text-sm py-1 px-2 hover:bg-red-500/10 rounded flex items-center gap-2"
+                            variant="ghost"
+                            className="w-full text-left text-red-400 text-sm py-1 px-2 hover:bg-red-500/10 rounded flex items-center gap-2 justify-start"
                           >
                             <Trash2 className="w-3 h-3" />
                             Delete
-                          </button>
+                          </Button>
                         </motion.div>
                       )}
                     </AnimatePresence>

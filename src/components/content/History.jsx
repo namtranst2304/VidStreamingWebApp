@@ -1,7 +1,9 @@
 import { useState, useMemo } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from 'framer-motion';
 import { Search, Calendar, Clock, Play, Trash2, Filter, Eye, X, TrendingUp, BarChart3 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
+import { Button } from '../ui';
 
 function History() {
   const {
@@ -155,17 +157,15 @@ function History() {
             {filteredHistory.length} videos • Keep track of your viewing progress
           </p>
         </div>
-        
-        {watchHistory.length > 0 && (
-          <motion.button
+          {watchHistory.length > 0 && (
+          <Button
             onClick={clearWatchHistory}
-            className="glass-card px-6 py-3 text-red-400 hover:text-red-300 font-medium rounded-xl hover:bg-red-500/20 transition-colors flex items-center gap-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            variant="secondary"
+            className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
+            icon={<Trash2 size={20} />}
           >
-            <Trash2 size={20} />
             Clear All
-          </motion.button>
+          </Button>
         )}
       </div>
 
@@ -181,20 +181,14 @@ function History() {
             placeholder="Search watch history..."
             className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
           />
-        </div>
-
-        {/* Filter Toggle */}
-        <motion.button
+        </div>        {/* Filter Toggle */}
+        <Button
           onClick={() => setShowFilters(!showFilters)}
-          className={`glass-card px-6 py-3 rounded-xl transition-colors flex items-center gap-2 ${
-            showFilters ? 'bg-purple-600 text-white' : 'text-gray-300 hover:text-white hover:bg-white/20'
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          variant={showFilters ? "primary" : "glass"}
+          icon={<Filter size={20} />}
         >
-          <Filter size={20} />
           Filters
-        </motion.button>
+        </Button>
       </div>
 
       {/* Statistics Cards */}
@@ -410,31 +404,29 @@ function History() {
                       </div>
                     )}
                   </div>
-                </div>
-
-                {/* Actions */}
+                </div>                {/* Actions */}
                 <div className="flex-shrink-0 flex items-start gap-2">
-                  <motion.button
+                  <Button
                     onClick={() => {
                       setCurrentVideo(item.video);
                       setActiveTab('player');
                     }}
-                    className="p-2 text-gray-400 hover:text-white hover:bg-white/20 rounded-lg transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    variant="ghost"
+                    size="icon"
+                    className="p-2 text-gray-400 hover:text-white"
                     title="Watch"
                   >
                     <Play size={18} />
-                  </motion.button>
-                  <motion.button
+                  </Button>
+                  <Button
                     onClick={() => removeFromWatchHistory(item.id)}
-                    className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    variant="ghost"
+                    size="icon"
+                    className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/20"
                     title="Remove from history"
                   >
                     <X size={18} />
-                  </motion.button>
+                  </Button>
                 </div>
               </div>
             </motion.div>

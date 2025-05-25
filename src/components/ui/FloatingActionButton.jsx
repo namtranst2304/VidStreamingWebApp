@@ -6,7 +6,6 @@ import {
   Upload, 
   Bookmark, 
   Search, 
-  Settings, 
   HelpCircle,
   X,
   MessageCircle
@@ -18,19 +17,24 @@ function FloatingActionButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false); // rename for clarity
   const { setActiveTab } = useAppStore();
-
   const actions = [
     {
       icon: Upload,
       label: 'Upload Video',
       action: () => setActiveTab('player'),
-      color: 'bg-blue-500 hover:bg-blue-600'
+      color: 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
     },
     {
       icon: Bookmark,
       label: 'Create Playlist',
       action: () => setActiveTab('playlists'),
-      color: 'bg-green-500 hover:bg-green-600'
+      color: 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700'
+    },
+    {
+      icon: MessageCircle,
+      label: 'Video Notes',
+      action: () => setIsNotesOpen(true), // use setIsNotesOpen
+      color: 'bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700'
     },
     {
       icon: Search,
@@ -38,27 +42,15 @@ function FloatingActionButton() {
       action: () => {
         window.dispatchEvent(new CustomEvent('open-search'));
       },
-      color: 'bg-purple-500 hover:bg-purple-600'
-    },
-    {
-      icon: MessageCircle,
-      label: 'Video Notes',
-      action: () => setIsNotesOpen(true), // use setIsNotesOpen
-      color: 'bg-fuchsia-600 hover:bg-fuchsia-700'
-    },
-    {
-      icon: Settings,
-      label: 'Settings',
-      action: () => setActiveTab('settings'),
-      color: 'bg-gray-500 hover:bg-gray-600'
+      color: 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700'
     },
     {
       icon: HelpCircle,
-      label: 'Help',
+      label: 'Help & Shortcuts',
       action: () => {
         window.dispatchEvent(new CustomEvent('show-shortcuts'));
       },
-      color: 'bg-orange-500 hover:bg-orange-600'
+      color: 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
     }
   ];
 
@@ -66,34 +58,59 @@ function FloatingActionButton() {
     action.action();
     setIsOpen(false);
   };
-
   return (
     <div className="fixed bottom-6 right-6 z-40">
       {/* Action Items */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div className="absolute bottom-16 right-0 space-y-3">
+          <motion.div 
+            className="absolute bottom-20 right-0 flex flex-col items-end space-y-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
             {actions.map((action, index) => (
               <motion.div
                 key={action.label}
-                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.8 }}
-                transition={{ delay: index * 0.05 }}
+                initial={{ opacity: 0, x: 50, scale: 0.3 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 50, scale: 0.3 }}
+                transition={{ 
+                  delay: index * 0.08,
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 25
+                }}
                 className="flex items-center gap-3"
               >
-                <div className="glass-card px-3 py-2 rounded-lg">
+                {/* Label */}
+                <motion.div 
+                  className="glass-card px-3 py-2 rounded-lg opacity-0"
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: (index * 0.08) + 0.2 }}
+                  whileHover={{ scale: 1.05 }}
+                >
                   <span className="text-white text-sm font-medium whitespace-nowrap">
                     {action.label}
                   </span>
-                </div>
+                </motion.div>
+                
+                {/* Action Button */}
                 <motion.button
                   onClick={() => handleActionClick(action)}
-                  className={`w-12 h-12 rounded-full ${action.color} shadow-lg flex items-center justify-center text-white transition-colors`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  className={`w-10 h-10 rounded-full ${action.color} shadow-lg flex items-center justify-center text-white transition-all duration-200 hover:shadow-xl`}
+                  whileHover={{ 
+                    scale: 1.15,
+                    boxShadow: "0 8px 25px rgba(0,0,0,0.3)",
+                    transition: { duration: 0.2 }
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+                  }}
                 >
-                  <action.icon size={20} />
+                  <action.icon size={18} />
                 </motion.button>
               </motion.div>
             ))}
@@ -104,16 +121,34 @@ function FloatingActionButton() {
       {/* Main FAB */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 shadow-lg flex items-center justify-center text-white transition-all ${
-          isOpen ? 'rotate-45' : 'rotate-0'
-        }`}
-        whileHover={{ scale: 1.05 }}
+        className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 shadow-lg flex items-center justify-center text-white relative overflow-hidden"
+        whileHover={{ 
+          scale: 1.1,
+          boxShadow: "0 12px 35px rgba(139, 92, 246, 0.4)",
+          transition: { duration: 0.2 }
+        }}
         whileTap={{ scale: 0.95 }}
-        style={{ 
-          boxShadow: '0 10px 30px rgba(139, 92, 246, 0.3)',
+        animate={{ 
+          rotate: isOpen ? 45 : 0,
+          boxShadow: isOpen 
+            ? "0 15px 40px rgba(139, 92, 246, 0.5)" 
+            : "0 10px 30px rgba(139, 92, 246, 0.3)"
+        }}
+        transition={{ 
+          type: "spring", 
+          stiffness: 400, 
+          damping: 30 
         }}
       >
-        {isOpen ? <X size={24} /> : <Plus size={24} />}
+        {/* Gradient overlay for extra shine */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full" />
+        
+        <motion.div
+          animate={{ rotate: isOpen ? -45 : 0 }}
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        >
+          {isOpen ? <X size={24} /> : <Plus size={24} />}
+        </motion.div>
       </motion.button>
 
       {/* Backdrop */}
@@ -123,7 +158,7 @@ function FloatingActionButton() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-transparent"
+            className="fixed inset-0 bg-black/10 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
             style={{ zIndex: -1 }}
           />

@@ -132,13 +132,12 @@ const useAppStore = create(
           rating: 4.8
         },
         {
-          id: 2,
-          title: "JavaScript ES2024 Features",
+          id: 2,          title: "JavaScript ES2024 Features",
           description: "Explore the newest JavaScript features and how to use them effectively. Learn about temporal, pattern matching, and other cutting-edge features.",
           source: "youtube",
-          videoId: "jNQXAC9IVRw",
-          url: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
-          thumbnail: "https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg",
+          videoId: "dQw4w9WgXcQ",
+          url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
           duration: "22:15",
           views: "89K",
           tags: ["JavaScript", "ES2024", "Programming", "Features"],

@@ -149,15 +149,8 @@ export const exportNotesToPDF = async (videoTitle, notes) => {
   }
 };
 
-// Helper function to format time
-const formatTime = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${minutes}:${secs.toString().padStart(2, '0')}`;
-};
-
 // Alternative method using jsPDF (if you want actual PDF instead of HTML)
-export const exportNotesToPDFAdvanced = async (videoTitle, notes) => {
+export const exportNotesToPDFAdvanced = async (_videoTitle, _notes) => {
   try {
     // This would require installing jsPDF: npm install jspdf
     console.log('Advanced PDF export requires jsPDF library');

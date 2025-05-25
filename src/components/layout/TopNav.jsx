@@ -7,14 +7,8 @@ import SearchModal from '../modals/SearchModal';
 import { ThemeToggle } from '../ui';
 
 const TopNav = () => {
-  const { activeTab, setActiveTab, theme } = useAppStore();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-
-  // Get the correct icon color based on theme
-  const getSearchIconColor = () => {
-    return theme === 'dark' ? 'white' : '#1f2937';
-  };
+  const { activeTab, setActiveTab } = useAppStore();
+  const [searchQuery, setSearchQuery] = useState('');  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const showShortcuts = () => {
     window.dispatchEvent(new CustomEvent('show-shortcuts'));
@@ -51,59 +45,44 @@ const TopNav = () => {
                 className="input-glass w-full pl-10 pr-4 py-2 transition-all"
               />
             </div>
-          </div>          
-          
-          {/* Navigation Tabs */}
+          </div>              {/* Navigation Tabs */}
           <div className="nav-tab-container flex items-center gap-1 rounded-full p-1">
             {tabs.map((tab) => (
-              <motion.button
+              <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`nav-tab px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                className={`nav-tab px-4 py-2 rounded-full text-sm font-medium ${
                   activeTab === tab.id ? 'active' : ''
                 }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 {tab.label}
-              </motion.button>
+              </button>
             ))}
-          </div>
-
-          {/* Right Actions */}
-          <div className="flex items-center gap-3">
+          </div>{/* Right Actions */}          <div className="flex items-center gap-3">
             {/* Help Button */}
-            <motion.button
+            <button
               onClick={showShortcuts}
-              className="btn-glass p-2"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              className="btn-glass p-2 rounded-lg"
               title="Keyboard Shortcuts (Ctrl + /)"
             >
               <HelpCircle className="w-4 h-4" />
-            </motion.button>            {/* Theme Toggle */}
+            </button>
+
+            {/* Theme Toggle */}
             <ThemeToggle />
 
             {/* Notifications */}
-            <motion.button
-              className="btn-glass p-2 relative"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
+            <button className="btn-glass p-2 rounded-lg relative">
               <Bell className="w-4 h-4" />
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
                 <span className="text-xs text-white">3</span>
               </div>
-            </motion.button>
+            </button>
 
             {/* User Profile */}
-            <motion.button
-              className="btn-glass p-2"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
+            <button className="btn-glass p-2 rounded-lg">
               <User className="w-4 h-4" />
-            </motion.button>
+            </button>
           </div>
         </div>
       </motion.div>

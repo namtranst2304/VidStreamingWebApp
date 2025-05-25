@@ -73,12 +73,11 @@ const VolumeControl = memo(({ volume, isMuted, onVolumeChange, onMuteToggle }) =
       }}
     />
   );
-
   return (
     <div className="flex items-center gap-2">
       <button
         onClick={onMuteToggle}
-        className="p-1.5 hover:bg-white/10 rounded transition-colors"
+        className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
       >
         {isMuted || volume === 0 ? (
           <VolumeX className="w-4 h-4 text-white" />
@@ -789,15 +788,14 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
 
                       {/* Control Buttons Row */}
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          {folderPlaylist.length > 0 && (
+                        <div className="flex items-center gap-2">                          {folderPlaylist.length > 0 && (
                             <>
                               <motion.button
                                 onClick={playPreviousVideo}
-                                className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+                                className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                                title="Previous video"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
-                                title="Previous video"
                               >
                                 <StepBack size={16} />
                               </motion.button>
@@ -806,17 +804,17 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
 
                           <motion.button
                             onClick={() => handleSeek(Math.max(0, currentTime - 10))}
-                            className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+                            className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                            title="Rewind 10s"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            title="Rewind 10s"
                           >
                             <SkipBack size={16} />
                           </motion.button>
 
                           <motion.button
                             onClick={handlePlayPause}
-                            className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+                            className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                           >
@@ -825,10 +823,10 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
 
                           <motion.button
                             onClick={() => handleSeek(Math.min(duration, currentTime + 10))}
-                            className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+                            className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                            title="Forward 10s"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            title="Forward 10s"
                           >
                             <SkipForward size={16} />
                           </motion.button>
@@ -837,23 +835,21 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
                             <>
                               <motion.button
                                 onClick={playNextVideo}
-                                className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+                                className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                                title="Next video"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
-                                title="Next video"
                               >
                                 <StepForward size={16} />
                               </motion.button>
                             </>
-                          )}
-
-                          {/* Đặt nút Restart trước cụm âm lượng */}
+                          )}                          {/* Đặt nút Restart trước cụm âm lượng */}
                           <motion.button
                             onClick={handleResetVideo}
-                            className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+                            className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                            title="Restart from beginning"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            title="Restart from beginning"
                           >
                             <RotateCcw size={16} />
                           </motion.button>

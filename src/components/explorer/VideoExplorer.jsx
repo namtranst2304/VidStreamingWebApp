@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
@@ -17,11 +18,10 @@ import {
   X
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
+import { Button } from '../ui';
 
-function VideoExplorer() {
-  const { 
+function VideoExplorer() {  const { 
     addVideo, 
-    createPlaylist, 
     addVideoToPlaylist, 
     playlists,
     setCurrentVideo,
@@ -54,17 +54,16 @@ function VideoExplorer() {
         publishedAt: '2 weeks ago',
         url: `https://www.youtube.com/watch?v=dQw4w9WgXcQ`,
         source: 'youtube'
-      },
-      {
-        id: 'jNQXAC9IVRw',
+      },      {
+        id: 'dQw4w9WgXcQ',
         title: `Advanced ${query} Techniques`,
         description: `Master advanced ${query} concepts and best practices used by professionals.`,
-        thumbnail: `https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg`,
+        thumbnail: `https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg`,
         channel: 'Pro Developer',
         duration: '1:15:45',
         views: '856K',
         publishedAt: '1 month ago',
-        url: `https://www.youtube.com/watch?v=jNQXAC9IVRw`,
+        url: `https://www.youtube.com/watch?v=dQw4w9WgXcQ`,
         source: 'youtube'
       },
       {
@@ -182,25 +181,19 @@ function VideoExplorer() {
 
       {/* Search Section */}
       <div className="glass-card p-6 rounded-xl mb-8">
-        {/* Source Selection */}
-        <div className="flex gap-3 mb-6">
+        {/* Source Selection */}        <div className="flex gap-3 mb-6">
           {sources.map(source => {
             const Icon = source.icon;
             return (
-              <motion.button
+              <Button
                 key={source.id}
                 onClick={() => setSelectedSource(source.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  selectedSource === source.id
-                    ? `bg-${source.color}-600 text-white`
-                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                variant={selectedSource === source.id ? "primary" : "glass"}
+                className={selectedSource === source.id ? `bg-${source.color}-600` : ''}
+                icon={<Icon size={18} />}
               >
-                <Icon size={18} />
                 {source.name}
-              </motion.button>
+              </Button>
             );
           })}
         </div>
@@ -217,21 +210,15 @@ function VideoExplorer() {
               placeholder="Search for videos (e.g., React, JavaScript, Python...)"
               className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
             />
-          </div>
-          <motion.button
+          </div>          <Button
             onClick={handleSearch}
             disabled={!searchQuery.trim() || isSearching}
-            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-xl transition-colors flex items-center gap-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            variant="primary"
+            loading={isSearching}
+            icon={isSearching ? <Loader size={20} className="animate-spin" /> : <Search size={20} />}
           >
-            {isSearching ? (
-              <Loader size={20} className="animate-spin" />
-            ) : (
-              <Search size={20} />
-            )}
             Search
-          </motion.button>
+          </Button>
         </div>
 
         {/* Search Stats */}
@@ -308,11 +295,9 @@ function VideoExplorer() {
                       <Clock size={14} />
                       {video.publishedAt}
                     </span>
-                  </div>
-
-                  {/* Actions */}
+                  </div>                  {/* Actions */}
                   <div className="flex items-center gap-3">
-                    <motion.button
+                    <Button
                       onClick={() => {
                         const videoData = {
                           id: video.id,
@@ -329,46 +314,28 @@ function VideoExplorer() {
                         setCurrentVideo(videoData);
                         setActiveTab('player');
                       }}
-                      className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      variant="primary"
+                      icon={<Play size={16} />}
                     >
-                      <Play size={16} />
                       Watch
-                    </motion.button>
+                    </Button>
 
-                    <motion.button
+                    <Button
                       onClick={() => handleImportVideo(video)}
                       disabled={importedVideos.has(video.id)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                        importedVideos.has(video.id)
-                          ? 'bg-green-600 text-white cursor-default'
-                          : 'bg-white/10 hover:bg-white/20 text-gray-300'
-                      }`}
-                      whileHover={{ scale: importedVideos.has(video.id) ? 1 : 1.05 }}
-                      whileTap={{ scale: importedVideos.has(video.id) ? 1 : 0.95 }}
+                      variant={importedVideos.has(video.id) ? "primary" : "glass"}
+                      className={importedVideos.has(video.id) ? 'bg-green-600 hover:bg-green-600' : ''}
+                      icon={importedVideos.has(video.id) ? <CheckCircle size={16} /> : <Download size={16} />}
                     >
-                      {importedVideos.has(video.id) ? (
-                        <>
-                          <CheckCircle size={16} />
-                          Imported
-                        </>
-                      ) : (
-                        <>
-                          <Download size={16} />
-                          Import
-                        </>
-                      )}
-                    </motion.button>
+                      {importedVideos.has(video.id) ? 'Imported' : 'Import'}
+                    </Button>
 
-                    <motion.button
-                      className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-gray-300 rounded-lg transition-colors"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                    <Button
+                      variant="glass"
+                      icon={<Plus size={16} />}
                     >
-                      <Plus size={16} />
                       Playlist
-                    </motion.button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -393,15 +360,16 @@ function VideoExplorer() {
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
               className="glass-card p-6 rounded-xl w-full max-w-md"
-            >
-              <div className="flex items-start justify-between mb-4">
+            >              <div className="flex items-start justify-between mb-4">
                 <h3 className="text-xl font-bold text-white">Import Video</h3>
-                <button
+                <Button
                   onClick={() => setShowImportModal(false)}
-                  className="p-1 hover:bg-white/10 rounded transition-colors"
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400"
                 >
-                  <X size={20} className="text-gray-400" />
-                </button>
+                  <X size={20} />
+                </Button>
               </div>
 
               <div className="mb-6">
@@ -412,38 +380,33 @@ function VideoExplorer() {
                 />
                 <h4 className="text-white font-medium mb-2">{selectedVideo.title}</h4>
                 <p className="text-gray-400 text-sm">{selectedVideo.channel} • {selectedVideo.duration}</p>
-              </div>
-
-              <div className="space-y-3">
-                <motion.button
+              </div>              <div className="space-y-3">
+                <Button
                   onClick={() => confirmImport('library')}
-                  className="w-full flex items-center justify-center gap-2 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  variant="primary"
+                  className="w-full"
+                  icon={<Download size={20} />}
                 >
-                  <Download size={20} />
                   Import to Library
-                </motion.button>
+                </Button>
 
-                <motion.button
+                <Button
                   onClick={() => confirmImport('watch')}
-                  className="w-full flex items-center justify-center gap-2 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  variant="primary"
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  icon={<Play size={20} />}
                 >
-                  <Play size={20} />
                   Import & Watch Now
-                </motion.button>
+                </Button>
 
-                <motion.button
+                <Button
                   onClick={() => confirmImport('playlist')}
-                  className="w-full flex items-center justify-center gap-2 p-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  variant="primary"
+                  className="w-full bg-green-600 hover:bg-green-700"
+                  icon={<Plus size={20} />}
                 >
-                  <Plus size={20} />
                   Import to Playlist
-                </motion.button>
+                </Button>
               </div>
             </motion.div>
           </motion.div>

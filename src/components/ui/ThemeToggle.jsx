@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { Sun, Moon, MoonStar } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
