@@ -1,0 +1,172 @@
+{
+  "hash": "bb6c1e21",
+  "configHash": "a348c7ce",
+  "lockfileHash": "c6194768",
+  "browserHash": "d622f1c5",
+  "optimized": {
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "3750c451",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "30ee660a",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "a7e03728",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "73a598c6",
+      "needsInterop": true
+    },
+    "react-player": {
+      "src": "../../node_modules/react-player/lib/index.js",
+      "file": "react-player.js",
+      "fileHash": "dbde68e1",
+      "needsInterop": true
+    },
+    "react-player/lazy": {
+      "src": "../../node_modules/react-player/lazy/index.js",
+      "file": "react-player_lazy.js",
+      "fileHash": "92cf592b",
+      "needsInterop": true
+    },
+    "recharts": {
+      "src": "../../node_modules/recharts/es6/index.js",
+      "file": "recharts.js",
+      "fileHash": "1716b9ed",
+      "needsInterop": false
+    },
+    "zustand": {
+      "src": "../../node_modules/zustand/esm/index.mjs",
+      "file": "zustand.js",
+      "fileHash": "64b0d771",
+      "needsInterop": false
+    },
+    "zustand/middleware": {
+      "src": "../../node_modules/zustand/esm/middleware.mjs",
+      "file": "zustand_middleware.js",
+      "fileHash": "b56f349c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "Mixcloud-O7RRRFPE": {
+      "file": "Mixcloud-O7RRRFPE.js"
+    },
+    "Vidyard-4TLCNOXI": {
+      "file": "Vidyard-4TLCNOXI.js"
+    },
+    "Kaltura-5FMZ6FNG": {
+      "file": "Kaltura-5FMZ6FNG.js"
+    },
+    "FilePlayer-UNHDWV4V": {
+      "file": "FilePlayer-UNHDWV4V.js"
+    },
+    "Preview-LMFQOAB7": {
+      "file": "Preview-LMFQOAB7.js"
+    },
+    "SoundCloud-E4X2I4LL": {
+      "file": "SoundCloud-E4X2I4LL.js"
+    },
+    "Vimeo-GPUXQMTG": {
+      "file": "Vimeo-GPUXQMTG.js"
+    },
+    "Mux-ZHHLJDLJ": {
+      "file": "Mux-ZHHLJDLJ.js"
+    },
+    "Facebook-66OMHU5J": {
+      "file": "Facebook-66OMHU5J.js"
+    },
+    "Streamable-YK36RLLO": {
+      "file": "Streamable-YK36RLLO.js"
+    },
+    "Wistia-A2JPWANY": {
+      "file": "Wistia-A2JPWANY.js"
+    },
+    "Twitch-MPXXLZE6": {
+      "file": "Twitch-MPXXLZE6.js"
+    },
+    "DailyMotion-2KNLNPIC": {
+      "file": "DailyMotion-2KNLNPIC.js"
+    },
+    "Twitch-Z2XZM34T": {
+      "file": "Twitch-Z2XZM34T.js"
+    },
+    "DailyMotion-TCN23ZWF": {
+      "file": "DailyMotion-TCN23ZWF.js"
+    },
+    "Mixcloud-XOT6WJHS": {
+      "file": "Mixcloud-XOT6WJHS.js"
+    },
+    "Vidyard-QFHEGI3S": {
+      "file": "Vidyard-QFHEGI3S.js"
+    },
+    "Kaltura-PNPN5SAC": {
+      "file": "Kaltura-PNPN5SAC.js"
+    },
+    "FilePlayer-U2UR2635": {
+      "file": "FilePlayer-U2UR2635.js"
+    },
+    "Preview-FXDAX3RZ": {
+      "file": "Preview-FXDAX3RZ.js"
+    },
+    "YouTube-3YQWFUHN": {
+      "file": "YouTube-3YQWFUHN.js"
+    },
+    "YouTube-CRMUOBJL": {
+      "file": "YouTube-CRMUOBJL.js"
+    },
+    "SoundCloud-A4PCWJPR": {
+      "file": "SoundCloud-A4PCWJPR.js"
+    },
+    "Vimeo-53OQTNLP": {
+      "file": "Vimeo-53OQTNLP.js"
+    },
+    "Mux-YUGIAEIC": {
+      "file": "Mux-YUGIAEIC.js"
+    },
+    "Facebook-XMVNF3DN": {
+      "file": "Facebook-XMVNF3DN.js"
+    },
+    "Streamable-NPLNT4XD": {
+      "file": "Streamable-NPLNT4XD.js"
+    },
+    "Wistia-QMOJ66IX": {
+      "file": "Wistia-QMOJ66IX.js"
+    },
+    "chunk-OPSXMCP6": {
+      "file": "chunk-OPSXMCP6.js"
+    },
+    "chunk-SAZKZU5W": {
+      "file": "chunk-SAZKZU5W.js"
+    },
+    "chunk-FZ2GTO7S": {
+      "file": "chunk-FZ2GTO7S.js"
+    },
+    "chunk-RZVJAJWH": {
+      "file": "chunk-RZVJAJWH.js"
+    },
+    "chunk-VJ56LFBU": {
+      "file": "chunk-VJ56LFBU.js"
+    },
+    "chunk-XE2STDAP": {
+      "file": "chunk-XE2STDAP.js"
+    },
+    "chunk-D2KY6O3O": {
+      "file": "chunk-D2KY6O3O.js"
+    },
+    "chunk-V4OQ3NZ2": {
+      "file": "chunk-V4OQ3NZ2.js"
+    }
+  }
+}
