@@ -1,51 +1,11 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { Play, Upload, Link, ChevronDown, File, Folder, X, Video, AlertCircle } from 'lucide-react';
 import { Button } from '../ui';
 import useAppStore from '../../store/useAppStore';
 import OnlinePlayer from './OnlinePlayer';
 import LocalPlayer from './LocalPlayer';
-
-// Video file validation utility
-const isVideoFile = (file) => {
-  return file.type.startsWith('video/') || 
-         /\.(mp4|webm|ogg|avi|mov|wmv|flv|mkv)$/i.test(file.name);
-};
-
-// Create video object from file
-const createVideoFromFile = (file, timestamp, index = 0) => ({
-  id: `batch-${timestamp}-${index}`,
-  title: file.name.replace(/\.[^/.]+$/, ''),
-  url: URL.createObjectURL(file),
-  source: 'local',
-  type: 'local',
-  thumbnail: '/placeholder-video.jpg',
-  duration: '00:00',
-  addedAt: new Date().toISOString(),
-  fileSize: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
-});
-
-// URL validation utility
-const validateVideoUrl = (url) => {
-  if (!url) return false;
-  
-  try {
-    const urlObj = new URL(url);
-    const hostname = urlObj.hostname.toLowerCase();
-    const isOnlineVideo = hostname.includes('youtube.com') || 
-      hostname.includes('youtu.be') || 
-      hostname.includes('vimeo.com') || 
-      hostname.includes('twitch.tv');
-    
-    if (isOnlineVideo) return true;
-  } catch {
-    // Not a valid URL, check if it's a local file
-  }
-  
-  // Check for local video files
-  return /\.(mp4|webm|ogg|avi|mov|wmv|flv|mkv)$/i.test(url);
-};
+import { isVideoFile, createVideoFromFile, validateVideoUrl } from './videoUtils';
 
 /**
  * VideoPlayer - Main component handling local file upload, URL pasting, and related popups

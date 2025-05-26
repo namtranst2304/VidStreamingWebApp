@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
 import { Button } from '../ui';
+import { isOnlineVideo } from './videoUtils';
 
 /**
  * TitleBar - Component xử lý thanh tiêu đề video  
@@ -247,13 +248,12 @@ const TitleBar = memo(({
   const handlePiPToggle = useCallback(() => {
     setPiPMode(true);
   }, [setPiPMode]);
-
   if (!video) {
     return null;
   }
 
-  const isOnlineVideo = videoType === 'online' || video.source === 'online' || 
-    (video.url && (video.url.startsWith('http://') || video.url.startsWith('https://')));
+  const isOnlineVideoCheck = videoType === 'online' || video.source === 'online' || 
+    isOnlineVideo(video.url);
 
   // Build title with playlist info
   let displayTitle = video.title;
@@ -267,7 +267,7 @@ const TitleBar = memo(({
         {/* Title Section */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <h1 className={`text-white font-medium line-clamp-1 ${compact ? 'text-sm max-w-[300px]' : 'text-base max-w-[400px]'}`}>
-            {isOnlineVideo ? `Online Stream: ${video.title}` : displayTitle}
+            {isOnlineVideoCheck ? `Online Stream: ${video.title}` : displayTitle}
           </h1>
           
           {playlistInfo && playlistInfo.isQueue && (

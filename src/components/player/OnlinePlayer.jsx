@@ -2,35 +2,7 @@ import { useState, useEffect, memo, useMemo } from 'react';
 import { Play } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
 import TitleBar from './TitleBar';
-
-// Utility function to get embed URL
-const getEmbedUrl = (url) => {
-  if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
-    return '';
-  }
-  
-  // YouTube
-  if (url.includes('youtube.com') || url.includes('youtu.be')) {
-    const videoId = url.includes('youtu.be') 
-      ? url.split('youtu.be/')[1]?.split('?')[0]
-      : url.split('v=')[1]?.split('&')[0];
-    return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-  }
-  
-  // Vimeo
-  if (url.includes('vimeo.com')) {
-    const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
-    return `https://player.vimeo.com/video/${videoId}?autoplay=1`;
-  }
-  
-  // Twitch
-  if (url.includes('twitch.tv')) {
-    const channel = url.split('twitch.tv/')[1]?.split('?')[0];
-    return `https://player.twitch.tv/?channel=${channel}&parent=${window.location.hostname}`;
-  }
-  
-  return url;
-};
+import { getEmbedUrl } from './videoUtils';
 
 const OnlinePlayer = memo(() => {
   const { 
