@@ -31,7 +31,8 @@
     color-scheme: light;
   }
   .light #root {
-    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 50%, #f9f9f9 100%);
+    /* Even softer, less bright, modern background */
+    background: linear-gradient(135deg, #e6eaf3 0%, #dbe2ee 50%, #e3e7f0 100%);
   }
 }
 
@@ -71,36 +72,31 @@
 
   /* Light Theme Glassmorphism Components */
   .light .glass-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-    backdrop-filter: blur(60px) saturate(200%);
-    -webkit-backdrop-filter: blur(60px) saturate(200%);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: linear-gradient(135deg, rgba(245, 247, 252, 0.82), rgba(235, 238, 245, 0.68));
+    backdrop-filter: blur(48px) saturate(160%);
+    -webkit-backdrop-filter: blur(48px) saturate(160%);
+    border: 1.5px solid rgba(180, 190, 220, 0.13);
     border-radius: 1rem;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.08),
-      0 1px 0 rgba(255, 255, 255, 0.8) inset,
-      0 -1px 0 rgba(0, 0, 0, 0.03) inset;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.06), 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 -1px 0 rgba(0, 0, 0, 0.02) inset;
   }
 
   .light .glass-sidebar {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-    backdrop-filter: blur(60px) saturate(200%);
-    -webkit-backdrop-filter: blur(60px) saturate(200%);
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 
-      inset -1px 0 0 rgba(0, 0, 0, 0.05),
-      2px 0 20px rgba(0, 0, 0, 0.06);
+    background: linear-gradient(180deg, rgba(245, 247, 252, 0.92), rgba(235, 238, 245, 0.82));
+    backdrop-filter: blur(48px) saturate(160%);
+    -webkit-backdrop-filter: blur(48px) saturate(160%);
+    border-right: 1.5px solid rgba(180, 190, 220, 0.10);
+    box-shadow: inset -1px 0 0 rgba(180, 190, 220, 0.04), 2px 0 20px rgba(31, 38, 135, 0.04);
   }
 
   .light .glass-nav {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-    backdrop-filter: blur(60px) saturate(200%);
-    -webkit-backdrop-filter: blur(60px) saturate(200%);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 
-      0 4px 24px rgba(0, 0, 0, 0.06),
-      0 1px 0 rgba(255, 255, 255, 0.9) inset;
-  }  /* Dark Theme Buttons */
+    background: linear-gradient(135deg, rgba(245, 247, 252, 0.92), rgba(235, 238, 245, 0.82));
+    backdrop-filter: blur(48px) saturate(160%);
+    -webkit-backdrop-filter: blur(48px) saturate(160%);
+    border: 1.5px solid rgba(180, 190, 220, 0.10);
+    box-shadow: 0 4px 24px rgba(31, 38, 135, 0.04), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  }
+
+  /* Dark Theme Buttons */
   .dark .btn-primary {
     padding: 0.75rem 1.5rem;
     color: white;
@@ -306,19 +302,22 @@
     transition: all 0.2s;
     cursor: pointer;
     backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.55);
+    border: 1.2px solid rgba(180, 190, 220, 0.13);
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,0.04);
   }
 
   .light .sidebar-item:hover {
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(245,247,252,0.85);
+    border-color: rgba(59,130,246,0.13);
+    box-shadow: 0 4px 16px 0 rgba(59,130,246,0.08);
     color: #374151;
   }
   .light .sidebar-item.active {
-    color: #111827;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(147, 51, 234, 0.06));
-    box-shadow: 
-      0 2px 12px rgba(59, 130, 246, 0.12),
-      0 1px 0 rgba(255, 255, 255, 0.8) inset;
-    border: 1px solid rgba(59, 130, 246, 0.15);
+    background: linear-gradient(90deg, rgba(147,51,234,0.10) 0%, rgba(59,130,246,0.10) 100%);
+    border-color: rgba(59,130,246,0.18);
+    color: #4f46e5;
+    box-shadow: 0 4px 16px 0 rgba(59,130,246,0.12);
   }
 
   /* Dark Theme Video Card */
@@ -346,25 +345,21 @@
 
   /* Light Theme Video Card */
   .light .video-card {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(245, 247, 252, 0.85);
+    backdrop-filter: blur(32px) saturate(140%);
+    -webkit-backdrop-filter: blur(32px) saturate(140%);
+    border: 1px solid rgba(180, 190, 220, 0.10);
     border-radius: 1rem;
     transition: all 0.3s ease;
     cursor: pointer;
-    box-shadow: 
-      0 4px 20px rgba(0, 0, 0, 0.06),
-      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    box-shadow: 0 4px 20px rgba(31, 38, 135, 0.04), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
   }
 
   .light .video-card:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.9));
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.1),
-      0 1px 0 rgba(255, 255, 255, 1) inset;
-    border-color: rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, rgba(245, 247, 252, 0.98), rgba(235, 238, 245, 0.92));
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    border-color: rgba(180, 190, 220, 0.16);
   }
 
   /* Dark Theme Input Fields */
@@ -396,15 +391,13 @@
 
   /* Light Theme Input Fields */
   .light .input-glass {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(245, 247, 252, 0.85);
+    border: 1px solid rgba(180, 190, 220, 0.10);
     border-radius: 0.75rem;
-    color: #1f2937;
-    backdrop-filter: blur(20px) saturate(200%);
-    -webkit-backdrop-filter: blur(20px) saturate(200%);
-    box-shadow: 
-      0 2px 12px rgba(0, 0, 0, 0.06),
-      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    color: #23272f;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 2px 12px rgba(31, 38, 135, 0.04), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
   }
 
   .light .input-glass::placeholder {
@@ -413,29 +406,23 @@
 
   .light .input-glass:focus {
     outline: none;
-    border-color: rgba(59, 130, 246, 0.6);
-    box-shadow: 
-      0 0 0 2px rgba(59, 130, 246, 0.3),
-      0 4px 16px rgba(59, 130, 246, 0.15),
-      0 1px 0 rgba(255, 255, 255, 1) inset;
-    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(59, 130, 246, 0.25);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.10), 0 4px 16px rgba(59, 130, 246, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    background: rgba(245, 247, 252, 0.98);
   }
 
   /* Text Color Improvements for Better Readability */
   .light h1, .light h2, .light h3, .light h4, .light h5, .light h6 {
-    color: #111827;
+    color: #23272f;
   }
-
   .light p, .light .text-primary {
-    color: #374151;
+    color: #3a4052;
   }
-
   .light .text-secondary {
     color: #6b7280;
   }
-
   .light .text-muted {
-    color: #9ca3af;
+    color: #a0aec0;
   }
 
   .light .sidebar-text {
@@ -563,6 +550,48 @@
   }
 }
 
+@layer components {
+  .glass-card {
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    background: rgba(255,255,255,0.22);
+    border-radius: 1.25rem;
+    border: 1.5px solid rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.10);
+    transition: all 0.3s;
+  }
+  .glass-sidebar {
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    background: rgba(255,255,255,0.18);
+    border-radius: 1.25rem;
+    border: 1.5px solid rgba(255,255,255,0.14);
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.12);
+    transition: all 0.3s;
+  }
+  .btn-glass {
+    backdrop-filter: blur(12px) saturate(1.1);
+    -webkit-backdrop-filter: blur(12px) saturate(1.1);
+    background: rgba(255,255,255,0.22);
+    border-radius: 0.75rem;
+    border: 1.2px solid rgba(255,255,255,0.16);
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,0.08);
+    transition: all 0.2s;
+  }
+}
+
+@layer base {
+  html.light .glass-card,
+  html.light .glass-sidebar,
+  html.light .btn-glass {
+    background: rgba(255,255,255,0.18) !important;
+    border-color: rgba(255,255,255,0.13) !important;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.08);
+    backdrop-filter: blur(22px) saturate(1.15);
+    -webkit-backdrop-filter: blur(22px) saturate(1.15);
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -584,9 +613,9 @@
 
 /* Light mode scrollbar */
 .light ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+  background: linear-gradient(135deg, rgba(180, 190, 220, 0.13), rgba(180, 190, 220, 0.08));
 }
 
 .light ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+  background: linear-gradient(135deg, rgba(180, 190, 220, 0.22), rgba(180, 190, 220, 0.13));
 }

@@ -27,7 +27,7 @@ const StatCard = memo(({ stat, index, getColorClass }) => (
 StatCard.displayName = 'StatCard';
 
 const Statistics = memo(() => {
-  const { statsData, watchHistory } = useAppStore();
+  const { statistics, watchHistory } = useAppStore();
 
   // Memoized data calculations
   const { categoryData, stats, weeklyData } = useMemo(() => {
@@ -42,21 +42,21 @@ const Statistics = memo(() => {
     const stats = [
       {
         title: 'Total Watch Time',
-        value: statsData.totalWatchTime,
+        value: statistics?.totalWatchTime ?? 0,
         icon: Clock,
         color: 'blue',
         change: '+12%'
       },
       {
         title: 'Videos Watched',
-        value: statsData.videosWatched,
+        value: statistics?.videosWatched ?? 0,
         icon: Video,
         color: 'green',
         change: '+8%'
       },
       {
         title: 'Average Session',
-        value: statsData.averageSessionTime,
+        value: statistics?.averageSessionTime ?? 0,
         icon: Eye,
         color: 'purple',
         change: '+5%'
@@ -81,7 +81,7 @@ const Statistics = memo(() => {
     ];
 
     return { categoryData, stats, weeklyData };
-  }, [statsData]);
+  }, [statistics]);
   const getColorClass = (color) => {
     const colors = {
       blue: 'from-blue-500 to-blue-600',

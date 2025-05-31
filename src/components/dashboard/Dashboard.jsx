@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
-import { Play, Plus, MoreHorizontal, Star, Clock, Eye, Tag, TrendingUp, Users, Activity, Calendar } from 'lucide-react';
+import { Play, Plus, MoreHorizontal, Star, Clock, Eye, Tag, TrendingUp, Users, Activity, Calendar, Video } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
 import { Button } from '../ui';
 
@@ -32,12 +32,23 @@ const VideoCard = memo(({ video, index, onPlay, onToggleFavorite, isFavorite }) 
     onClick={() => onPlay(video)}
   >
     <div className="relative mb-4">
-      <img 
-        src={video.thumbnail} 
-        alt={video.title}
-        className="w-full h-40 rounded-lg object-cover"
-        loading="lazy"
-      />
+      {video.thumbnail ? (
+        <img 
+          src={video.thumbnail} 
+          alt={video.title}
+          className="w-full h-40 rounded-lg object-cover"
+          loading="lazy"
+          onError={e => { e.target.onerror = null; e.target.src = ''; e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+        />
+      ) : null}
+      {/* Placeholder if no thumbnail or error */}
+      <div
+        style={{ display: video.thumbnail ? 'none' : 'flex' }}
+        className="absolute inset-0 w-full h-40 flex flex-col items-center justify-center bg-gradient-to-br from-blue-100/60 to-purple-100/40 border border-blue-200/40 rounded-lg glass-card text-blue-400"
+      >
+        <Video className="w-12 h-12 mb-2 opacity-70" />
+        <span className="text-xs text-blue-400/70">No Thumbnail</span>
+      </div>
       <div className="absolute bottom-2 right-2 bg-black/70 px-2 py-1 rounded text-xs text-white">
         {video.duration}
       </div>
@@ -78,12 +89,24 @@ const RecentVideoItem = memo(({ video, onPlay }) => (
     className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
     onClick={onPlay}
   >
-    <img 
-      src={video.thumbnail} 
-      alt={video.title}
-      className="w-16 h-10 rounded object-cover"
-      loading="lazy"
-    />    <div className="flex-1 min-w-0">
+    {video.thumbnail ? (
+      <img 
+        src={video.thumbnail} 
+        alt={video.title}
+        className="w-16 h-10 rounded object-cover"
+        loading="lazy"
+        onError={e => { e.target.onerror = null; e.target.src = ''; e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+      />
+    ) : null}
+    {/* Placeholder if no thumbnail or error */}
+    <div
+      style={{ display: video.thumbnail ? 'none' : 'flex' }}
+      className="w-16 h-10 flex flex-col items-center justify-center bg-gradient-to-br from-blue-100/60 to-purple-100/40 border border-blue-200/40 rounded glass-card text-blue-400"
+    >
+      <Video className="w-6 h-6 mb-1 opacity-70" />
+      <span className="text-[10px] text-blue-400/70">No Thumbnail</span>
+    </div>
+    <div className="flex-1 min-w-0">
       <h4 className="font-medium video-title text-sm truncate">{video.title}</h4>
       <div className="w-full h-1 bg-white/20 rounded-full mt-2">
         <div 

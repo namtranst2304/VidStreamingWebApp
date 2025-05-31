@@ -55,13 +55,19 @@ const PlaylistManager = ({
 
   // Remove video from playlist
   const removeFromPlaylist = useCallback((index) => {
+    if (folderPlaylist.length === 0) return;
     const newPlaylist = folderPlaylist.filter((_, i) => i !== index);
     setFolderPlaylist(newPlaylist);
-    
-    if (index === currentPlaylistIndex && newPlaylist.length > 0) {
-      const newIndex = Math.min(currentPlaylistIndex, newPlaylist.length - 1);
-      setCurrentPlaylistIndex(newIndex);
-      setCurrentVideo(newPlaylist[newIndex]);
+    // If removing current, play next or previous, or clear
+    if (index === currentPlaylistIndex) {
+      if (newPlaylist.length === 0) {
+        setCurrentPlaylistIndex(0);
+        setCurrentVideo(null);
+      } else {
+        const newIndex = index >= newPlaylist.length ? newPlaylist.length - 1 : index;
+        setCurrentPlaylistIndex(newIndex);
+        setCurrentVideo(newPlaylist[newIndex]);
+      }
     } else if (index < currentPlaylistIndex) {
       setCurrentPlaylistIndex(currentPlaylistIndex - 1);
     }
@@ -69,7 +75,7 @@ const PlaylistManager = ({
 
   // Move item up in playlist
   const moveItemUp = useCallback((index) => {
-    if (index > 0) {
+    if (index > 0 && index < folderPlaylist.length) {
       const newPlaylist = [...folderPlaylist];
       [newPlaylist[index], newPlaylist[index - 1]] = [newPlaylist[index - 1], newPlaylist[index]];
       setFolderPlaylist(newPlaylist);
@@ -83,7 +89,7 @@ const PlaylistManager = ({
 
   // Move item down in playlist
   const moveItemDown = useCallback((index) => {
-    if (index < folderPlaylist.length - 1) {
+    if (index >= 0 && index < folderPlaylist.length - 1) {
       const newPlaylist = [...folderPlaylist];
       [newPlaylist[index], newPlaylist[index + 1]] = [newPlaylist[index + 1], newPlaylist[index]];
       setFolderPlaylist(newPlaylist);
@@ -98,29 +104,27 @@ const PlaylistManager = ({
   // Clear entire playlist
   const clearPlaylist = useCallback(() => {
     setFolderPlaylist([]);
+    setCurrentPlaylistIndex(0);
     setCurrentPlaylistName('Queue');
+    setCurrentVideo(null);
     setShowPlaylist(false);
-  }, [setFolderPlaylist, setCurrentPlaylistName, setShowPlaylist]);
+  }, [setFolderPlaylist, setCurrentPlaylistIndex, setCurrentPlaylistName, setCurrentVideo, setShowPlaylist]);
 
   // Create new playlist from current queue
   const handleCreatePlaylist = useCallback(() => {
-    if (newPlaylistName.trim()) {
-      const playlistId = createPlaylist(newPlaylistName.trim(), newPlaylistDescription.trim());
-      if (currentVideo?.id) {
-        addVideoToPlaylist(playlistId, currentVideo.id);
-        window.dispatchEvent(new CustomEvent('show-notification', { 
-          detail: { type: 'success', message: `Created playlist "${newPlaylistName}" and added current video` }
-        }));
-      } else {
-        window.dispatchEvent(new CustomEvent('show-notification', { 
-          detail: { type: 'success', message: `Created playlist "${newPlaylistName}"` }
-        }));
-      }
-      setNewPlaylistName('');
-      setNewPlaylistDescription('');
-      setShowCreateModal(false);
-    }
-  }, [newPlaylistName, newPlaylistDescription, createPlaylist, addVideoToPlaylist, currentVideo]);
+    if (!newPlaylistName.trim()) return;
+    const playlistId = createPlaylist(newPlaylistName.trim(), newPlaylistDescription.trim());
+    // Add all videos in queue to new playlist
+    folderPlaylist.forEach(video => {
+      if (video?.id) addVideoToPlaylist(playlistId, video.id);
+    });
+    window.dispatchEvent(new CustomEvent('show-notification', {
+      detail: { type: 'success', message: `Created playlist "${newPlaylistName}" with ${folderPlaylist.length} videos` }
+    }));
+    setNewPlaylistName('');
+    setNewPlaylistDescription('');
+    setShowCreateModal(false);
+  }, [newPlaylistName, newPlaylistDescription, createPlaylist, addVideoToPlaylist, folderPlaylist]);
 
   if (!showPlaylist || folderPlaylist.length === 0) {
     return null;

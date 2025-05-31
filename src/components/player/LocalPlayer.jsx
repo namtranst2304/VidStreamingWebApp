@@ -20,6 +20,8 @@ import {
   Popcorn,
   PictureInPicture,
   List,
+  Repeat, // Add Repeat icon
+  Camera // Add Camera icon for frame capture
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
 import TitleBar from './TitleBar';
@@ -988,7 +990,7 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
       </div>
 
       {/* Enhanced Custom scrollbar styles */}
-      <style jsx global>{`
+      <style>{`
         .playlist-scrollbar {
           scrollbar-width: thin;
           scrollbar-color: rgba(147, 51, 234, 0.6) rgba(255, 255, 255, 0.05);
@@ -1037,7 +1039,8 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
         
         .playlist-scrollbar:hover::-webkit-scrollbar-thumb {
           opacity: 1;
-        }      `}</style>
+        }
+      `}</style>
     </div>
   );
 });

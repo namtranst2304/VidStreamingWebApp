@@ -13,6 +13,7 @@ import {
   PiPPlayer,
 } from './components';
 import useAppStore from './store/useAppStore';
+import { Settings, Mp4ToMp3Page } from './components/pages';
 
 // Lazy load heavy components for better performance
 const Dashboard = lazy(() => import('./components/dashboard/Dashboard'));
@@ -21,7 +22,6 @@ const VideoPlayer = lazy(() => import('./components/player/VideoPlayer'));
 const LocalPlayer = lazy(() => import('./components/player/LocalPlayer'));
 const Playlists = lazy(() => import('./components/content/Playlists'));
 const History = lazy(() => import('./components/content/History'));
-const Settings = lazy(() => import('./components/pages/Settings'));
 
 // Loading component for suspense fallback
 const LoadingFallback = ({ message = "Loading..." }) => (
@@ -89,12 +89,13 @@ function App() {
     };
   }, [setActiveTab]);  const renderContent = () => {
     const componentMap = {
-      'dashboard': { Component: Dashboard, message: "Loading Dashboard..." },
-      'player': { Component: VideoPlayer, message: "Loading Video Player..." },
-      'stats': { Component: Statistics, message: "Loading Statistics..." },
-      'playlists': { Component: Playlists, message: "Loading Playlists..." },
-      'history': { Component: History, message: "Loading History..." },
-      'settings': { Component: Settings, message: "Loading Settings..." }
+      dashboard: { Component: Dashboard, message: "Loading Dashboard..." },
+      player: { Component: VideoPlayer, message: "Loading Video Player..." },
+      stats: { Component: Statistics, message: "Loading Statistics..." },
+      playlists: { Component: Playlists, message: "Loading Playlists..." },
+      history: { Component: History, message: "Loading History..." },
+      settings: { Component: Settings, message: "Loading Settings..." },
+      convert: { Component: Mp4ToMp3Page, message: "Loading MP4 to MP3 Converter..." },
     };
 
     const selected = componentMap[activeTab] || componentMap['dashboard'];

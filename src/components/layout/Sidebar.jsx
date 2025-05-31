@@ -11,7 +11,8 @@ import {
   Clock,
   Folder,
   Youtube,
-  Video
+  Video,
+  FileVideo // Thêm FileVideo icon
 } from 'lucide-react';
 import useAppStore from '../../store/useAppStore';
 
@@ -25,6 +26,7 @@ const Sidebar = () => {
     { id: 'playlists', label: 'Playlists', icon: List },
     { id: 'stats', label: 'Statistics', icon: BarChart3 },
     { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'convert', label: 'MP4 to MP3', icon: FileVideo } // Sửa: thêm icon cho tab convert
   ];
 
   const recentVideos = watchHistory.slice(0, 3);
