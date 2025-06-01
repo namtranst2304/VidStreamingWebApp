@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -28,50 +28,53 @@ const PlaylistManager = ({
   repeat = false, 
   setRepeat = () => {},
   currentTime = 0,
-  duration = 0,
-  isPlaying = false,
+  duration = 0,  isPlaying = false,
+  _setIsPlaying = () => {},
   currentPlaylistName = 'Queue',
   setCurrentPlaylistName = () => {},
-  formatTime = (time) => time || '0:00'
-}) => {
-  const { 
+  formatTime = (time) => time || '0:00',
+  onVideoSelect = () => {},
+  onPlayPause = () => {}
+}) => {  const { 
     createPlaylist,
     addVideoToPlaylist,
-    currentVideo,
     setCurrentVideo
   } = useAppStore();
   
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState('');
-  const [newPlaylistDescription, setNewPlaylistDescription] = useState('');
-
-  // Play video from playlist
+  const [newPlaylistDescription, setNewPlaylistDescription] = useState('');  // Play video from playlist - Optimized
   const playVideoFromPlaylist = useCallback((index) => {
     if (index >= 0 && index < folderPlaylist.length) {
+      const video = folderPlaylist[index];
+      
+      // Batch updates to prevent multiple re-renders
       setCurrentPlaylistIndex(index);
-      setCurrentVideo(folderPlaylist[index]);
+      setCurrentVideo(video);
+      onVideoSelect(video, index);
     }
-  }, [folderPlaylist, setCurrentPlaylistIndex, setCurrentVideo]);
-
-  // Remove video from playlist
+  }, [folderPlaylist, setCurrentPlaylistIndex, setCurrentVideo, onVideoSelect]);// Remove video from playlist
   const removeFromPlaylist = useCallback((index) => {
     if (folderPlaylist.length === 0) return;
     const newPlaylist = folderPlaylist.filter((_, i) => i !== index);
     setFolderPlaylist(newPlaylist);
+    
     // If removing current, play next or previous, or clear
     if (index === currentPlaylistIndex) {
       if (newPlaylist.length === 0) {
         setCurrentPlaylistIndex(0);
         setCurrentVideo(null);
+        _setIsPlaying(false);
       } else {
         const newIndex = index >= newPlaylist.length ? newPlaylist.length - 1 : index;
         setCurrentPlaylistIndex(newIndex);
         setCurrentVideo(newPlaylist[newIndex]);
+        onVideoSelect(newPlaylist[newIndex], newIndex); // Use callback
       }
     } else if (index < currentPlaylistIndex) {
       setCurrentPlaylistIndex(currentPlaylistIndex - 1);
     }
-  }, [folderPlaylist, currentPlaylistIndex, setFolderPlaylist, setCurrentPlaylistIndex, setCurrentVideo]);
+  }, [folderPlaylist, currentPlaylistIndex, setFolderPlaylist, setCurrentPlaylistIndex, setCurrentVideo, onVideoSelect, _setIsPlaying]);
 
   // Move item up in playlist
   const moveItemUp = useCallback((index) => {
@@ -126,37 +129,87 @@ const PlaylistManager = ({
     setShowCreateModal(false);
   }, [newPlaylistName, newPlaylistDescription, createPlaylist, addVideoToPlaylist, folderPlaylist]);
 
+  // Add keyboard event handler
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (!showPlaylist) return;
+      
+      switch (e.key) {
+        case 'Escape':
+          setShowPlaylist(false);
+          break;
+        case 'Delete':
+        case 'Backspace':
+          if (e.target.tagName === 'BODY') {
+            e.preventDefault();
+            removeFromPlaylist(currentPlaylistIndex);
+          }
+          break;
+        case 'ArrowUp':
+          if (e.target.tagName === 'BODY' && currentPlaylistIndex > 0) {
+            e.preventDefault();
+            playVideoFromPlaylist(currentPlaylistIndex - 1);
+          }
+          break;
+        case 'ArrowDown':
+          if (e.target.tagName === 'BODY' && currentPlaylistIndex < folderPlaylist.length - 1) {
+            e.preventDefault();
+            playVideoFromPlaylist(currentPlaylistIndex + 1);
+          }
+          break;
+        case ' ':
+          if (e.target.tagName === 'BODY') {
+            e.preventDefault();
+            onPlayPause();
+          }
+          break;
+      }
+    };
+
+    if (showPlaylist) {
+      document.addEventListener('keydown', handleKeyPress);
+      return () => document.removeEventListener('keydown', handleKeyPress);
+    }
+  }, [showPlaylist, currentPlaylistIndex, folderPlaylist.length, playVideoFromPlaylist, removeFromPlaylist, onPlayPause, setShowPlaylist]);
+
   if (!showPlaylist || folderPlaylist.length === 0) {
     return null;
   }
 
   return (
     <>
-      {/* Playlist Sidebar */}
-      <motion.div
+      {/* Playlist Sidebar */}      <motion.div
         initial={{ opacity: 0, width: 0, x: 0 }} 
-        animate={{ opacity: 1, width: 360, x: 0 }}
+        animate={{ opacity: 1, width: 400, x: 0 }}
         exit={{ opacity: 0, width: 0, x: 0 }}    
-        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-        className="bg-black/40 backdrop-blur-sm border border-white/20 rounded-lg flex flex-col overflow-hidden shadow-2xl flex-shrink-0 ml-1"
+        transition={{ 
+          duration: 0.15, 
+          ease: [0.4, 0, 0.2, 1],
+          opacity: { duration: 0.1 }
+        }}
+        className="bg-black/40 backdrop-blur-sm border border-white/20 rounded-lg flex flex-col shadow-2xl flex-shrink-0 ml-1"
         style={{
           height: 'auto',
           maxHeight: '640px',
           minHeight: '200px',
+          minWidth: '400px',
+          maxWidth: '400px',
+          overflowX: 'hidden',
+          contain: 'layout style paint',
+          willChange: 'transform, opacity'
         }}
       >
-        {/* Playlist Header */}
-        <motion.div 
+        {/* Playlist Header */}        <motion.div 
           className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-purple-500/10 to-pink-500/10"
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
+          transition={{ delay: 0.05, duration: 0.15 }}
           style={{ flex: '0 0 auto' }}
         >
-          <div className="flex items-center gap-3">
-            <motion.div 
+          <div className="flex items-center gap-3">            <motion.div 
               className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center"
-              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileHover={{ scale: 1.05, rotate: 3 }}
+              transition={{ duration: 0.15 }}
             >
               <List className="w-4 h-4 text-white" />
             </motion.div>
@@ -166,14 +219,13 @@ const PlaylistManager = ({
             </div>
           </div>
           
-          <div className="flex items-center gap-1">
-            <motion.button
+          <div className="flex items-center gap-1">            <motion.button
               onClick={() => setShuffle(!shuffle)}
-              className={`p-1.5 rounded-lg transition-all duration-200 ${
+              className={`p-1.5 rounded-lg transition-colors duration-150 ${
                 shuffle ? 'text-purple-400 bg-purple-500/20 shadow-md' : 'text-white bg-white/20 hover:bg-white/30'
               }`}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               title="Shuffle"
             >
               <Shuffle size={12} />
@@ -181,11 +233,11 @@ const PlaylistManager = ({
             
             <motion.button
               onClick={() => setRepeat(!repeat)}
-              className={`p-1.5 rounded-lg transition-all duration-200 ${
+              className={`p-1.5 rounded-lg transition-colors duration-150 ${
                 repeat ? 'text-purple-400 bg-purple-500/20 shadow-md' : 'text-white bg-white/20 hover:bg-white/30'
               }`}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               title="Repeat"
             >
               <Repeat size={12} />
@@ -193,17 +245,15 @@ const PlaylistManager = ({
 
             <motion.button
               onClick={() => setShowPlaylist(false)}
-              className="p-1.5 text-white bg-white/20 hover:bg-red-500/30 rounded-lg transition-all duration-200 ml-1"
-              whileHover={{ scale: 1.15, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
+              className="p-1.5 text-white bg-white/20 hover:bg-red-500/30 rounded-lg transition-colors duration-150 ml-1"
+              whileHover={{ scale: 1.1, rotate: 45 }}
+              whileTap={{ scale: 0.95 }}
               title="Hide Playlist"
             >
               <X size={12} />
             </motion.button>
           </div>
-        </motion.div>
-
-        {/* Playlist Content */}
+        </motion.div>        {/* Playlist Content */}
         <motion.div 
           className="flex-1 overflow-y-auto p-1 playlist-scrollbar"
           initial={{ opacity: 0 }}
@@ -214,10 +264,11 @@ const PlaylistManager = ({
             scrollbarColor: 'rgba(147, 51, 234, 0.6) rgba(255, 255, 255, 0.05)',
             flex: '1 1 auto',
             minHeight: 0,
-            maxHeight: 'none'
+            maxHeight: 'none',
+            overflowX: 'hidden'
           }}
         >
-          <div className="space-y-0.5 p-1">
+          <div className="space-y-0.5 p-1" style={{ width: '100%', overflowX: 'hidden' }}>
             {folderPlaylist.map((video, index) => {
               // Restore progress from localStorage if available
               let progressData = {};
@@ -231,37 +282,41 @@ const PlaylistManager = ({
               const videoCurrentTime = saved && saved.currentTime ? saved.currentTime : 0;
               const videoDuration = saved && saved.duration ? saved.duration : video.duration;
 
-              return (
-                <motion.div
+              return (                <motion.div
                   key={video.id}
-                  initial={{ opacity: 0, x: 30 }}
+                  initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ 
-                    delay: 0.35 + (index * 0.03), 
-                    duration: 0.3,
+                    delay: index * 0.01, 
+                    duration: 0.12,
                     ease: "easeOut"
                   }}
-                  className={`group relative rounded-lg cursor-pointer transition-all duration-200 ${
+                  className={`group relative rounded-lg cursor-pointer transition-all duration-100 ${
                     index === currentPlaylistIndex
                       ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 shadow-lg'
                       : 'bg-white/5 hover:bg-white/10 border border-transparent hover:border-white/20'
                   }`}
-                  whileHover={{ scale: 1.02, x: 6 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.005, x: 2 }}
+                  whileTap={{ scale: 0.995 }}
+                  layout="position"
+                  layoutId={`playlist-item-${video.id}`}
+                  style={{ contain: 'layout style paint' }}
                   onClick={() => playVideoFromPlaylist(index)}
                 >
-                  <div className="flex items-center gap-3 p-3">
-                    {/* Enhanced Playing Indicator */}
+                  <div className="flex items-center gap-3 p-3">                    {/* Enhanced Playing Indicator */}
                     <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-                      {index === currentPlaylistIndex ? (
-                        <motion.div 
-                          className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg"
+                      {index === currentPlaylistIndex ? (                        <motion.div 
+                          className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
                           whileHover={{ scale: 1.1 }}
-                        >
-                          {isPlaying ? (
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onPlayPause();
+                          }}
+                          title={isPlaying ? "Pause" : "Play"}
+                        >                          {isPlaying ? (
                             <motion.div
-                              animate={{ scale: [1, 1.2, 1] }}
-                              transition={{ duration: 1, repeat: Infinity }}
+                              animate={{ scale: [1, 1.1, 1] }}
+                              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             >
                               <Pause size={10} className="text-white" />
                             </motion.div>
@@ -274,20 +329,18 @@ const PlaylistManager = ({
                           {index + 1}
                         </span>
                       )}
-                    </div>
-
-                    {/* Video Info */}
-                    <div className="flex-1 min-w-0">
-                      <h4 className={`text-xs font-medium line-clamp-2 mb-1 transition-colors ${
+                    </div>                    {/* Video Info */}
+                    <div className="flex-1 min-w-0 pr-2">
+                      <h4 className={`text-xs font-medium line-clamp-2 mb-1 transition-colors break-words ${
                         index === currentPlaylistIndex ? 'text-white' : 'text-gray-300 group-hover:text-white'
                       }`}>
                         {video.title}
                       </h4>
-                      <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <span>{video.fileSize}</span>
+                      <div className="flex items-center gap-2 text-xs text-gray-400 flex-wrap">
+                        <span className="truncate">{video.fileSize}</span>
                         <span>•</span>
                         {/* Show correct time for each video in playlist */}
-                        <span>
+                        <span className="shrink-0">
                           {index === currentPlaylistIndex
                             ? `${formatTime(currentTime || 0)} / ${formatTime(duration || 0)}`
                             : videoDuration && videoDuration !== '00:00'
@@ -295,10 +348,8 @@ const PlaylistManager = ({
                               : '--:--'}
                         </span>
                       </div>
-                    </div>
-
-                    {/* Enhanced Action Buttons */}
-                    <div className="flex-shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
+                    </div>                    {/* Action Buttons */}
+                    <div className="flex-shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                       <motion.button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -306,9 +357,9 @@ const PlaylistManager = ({
                             moveItemUp(index);
                           }
                         }}
-                        className="p-1 text-gray-400 hover:text-white bg-black/40 hover:bg-black/60 rounded transition-all duration-200"
-                        whileHover={{ scale: 1.2 }}
-                        whileTap={{ scale: 0.9 }}
+                        className="p-1 text-gray-400 hover:text-white bg-black/40 hover:bg-black/60 rounded transition-colors duration-150"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                         title="Move up"
                         disabled={index === 0}
                       >
@@ -322,44 +373,41 @@ const PlaylistManager = ({
                             moveItemDown(index);
                           }
                         }}
-                        className="p-1 text-gray-400 hover:text-white bg-black/40 hover:bg-black/60 rounded transition-all duration-200"
-                        whileHover={{ scale: 1.2 }}
-                        whileTap={{ scale: 0.9 }}
+                        className="p-1 text-gray-400 hover:text-white bg-black/40 hover:bg-black/60 rounded transition-colors duration-150"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                         title="Move down"
                         disabled={index === folderPlaylist.length - 1}
                       >
                         <ChevronDown size={10} />
-                      </motion.button>
-
-                      <motion.button
+                      </motion.button>                      <motion.button
                         onClick={(e) => {
                           e.stopPropagation();
                           removeFromPlaylist(index);
                         }}
-                        className="p-1 text-gray-400 hover:text-red-400 bg-black/40 hover:bg-red-500/30 rounded transition-all duration-200"
-                        whileHover={{ scale: 1.2, rotate: 90 }}
-                        whileTap={{ scale: 0.9 }}
+                        className="p-1 text-gray-400 hover:text-red-400 bg-black/40 hover:bg-red-500/30 rounded transition-colors duration-150"
+                        whileHover={{ scale: 1.1, rotate: 45 }}
+                        whileTap={{ scale: 0.95 }}
                         title="Remove from playlist"
                       >
                         <X size={10} />
                       </motion.button>
                     </div>
-                  </div>
-                  {/* Enhanced Progress Bar */}
+                  </div>                  {/* Enhanced Progress Bar */}
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 rounded-b-lg overflow-hidden">
                     {index === currentPlaylistIndex && currentTime > 0 && duration > 0 ? (
                       <motion.div
                         className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
                         initial={{ width: 0 }}
                         animate={{ width: `${(currentTime / duration) * 100}%` }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        transition={{ duration: 0.1, ease: "linear" }}
                       />
                     ) : (
                       <div
                         className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
                         style={{
                           width: `${videoProgress || 0}%`,
-                          transition: 'width 0.3s cubic-bezier(0.4,0,0.2,1)'
+                          transition: 'width 0.15s linear'
                         }}
                       />
                     )}
@@ -368,26 +416,36 @@ const PlaylistManager = ({
               );
             })}
           </div>
-        </motion.div>
-
-        {/* Playlist Footer */}
-        <motion.div 
+        </motion.div>        {/* Playlist Footer */}        <motion.div 
           className="p-3 border-t border-white/10 bg-gradient-to-r from-black/30 to-purple-900/20"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.3 }}
+          transition={{ delay: 0.1, duration: 0.15 }}
           style={{ flex: '0 0 auto' }}
         >
           <div className="flex items-center justify-between text-xs text-gray-400">
-            <span>{currentPlaylistName}: {folderPlaylist.length} videos</span>
+            <div className="flex flex-col">
+              <span className="font-medium text-white">{currentPlaylistName}</span>
+              <span>{folderPlaylist.length} video{folderPlaylist.length !== 1 ? 's' : ''} • Playing #{currentPlaylistIndex + 1}</span>
+            </div>
             <div className="flex items-center gap-2">
+              <motion.button
+                onClick={() => setShowCreateModal(true)}
+                className="text-green-400 hover:text-green-300 transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                title="Save as playlist"
+              >
+                <Plus size={12} />
+              </motion.button>
               <motion.button
                 onClick={clearPlaylist}
                 className="text-red-400 hover:text-red-300 transition-colors"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
+                title="Clear queue"
               >
-                Clear Queue
+                Clear
               </motion.button>
             </div>
           </div>
@@ -472,13 +530,13 @@ const PlaylistManager = ({
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
-
-      {/* Custom scrollbar styles */}
+      </AnimatePresence>      {/* Custom scrollbar styles */}
       <style jsx global>{`
         .playlist-scrollbar {
           scrollbar-width: thin;
           scrollbar-color: rgba(147, 51, 234, 0.6) rgba(255, 255, 255, 0.05);
+          overflow-x: hidden !important;
+          overflow-y: auto;
         }
         
         .playlist-scrollbar::-webkit-scrollbar {
@@ -511,10 +569,16 @@ const PlaylistManager = ({
         .playlist-scrollbar::-webkit-scrollbar-corner {
           background: transparent;
         }
-        
-        /* Smooth scrolling behavior */
+          /* Smooth scrolling behavior */
         .playlist-scrollbar {
           scroll-behavior: smooth;
+          contain: layout;
+        }
+        
+        /* Prevent horizontal overflow */
+        .playlist-scrollbar * {
+          max-width: 100%;
+          box-sizing: border-box;
         }
         
         /* Hide scrollbar when not needed */
@@ -524,6 +588,11 @@ const PlaylistManager = ({
         
         .playlist-scrollbar:hover::-webkit-scrollbar-thumb {
           opacity: 1;
+        }
+        
+        /* Smooth transitions for better UX */
+        .group {
+          transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
       `}</style>
     </>

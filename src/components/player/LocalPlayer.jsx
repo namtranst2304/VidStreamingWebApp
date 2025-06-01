@@ -252,6 +252,7 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
   const [currentPlaylistName, setCurrentPlaylistName] = useState('Queue');  const playerRef = useRef(null);
   const containerRef = useRef(null);
   const controlsTimeoutRef = useRef(null);
+  const sessionPlaylistInitialized = useRef(false);
 
   const handleSeek = useCallback((time) => {
     setCurrentTime(time);
@@ -314,17 +315,22 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
     setCurrentVideo(folderPlaylist[prevIndex]);
   }, [folderPlaylist, currentPlaylistIndex, repeat, setCurrentVideo]);  // If sessionPlaylist is set by upload, use it for folderPlaylist  // Sync sessionPlaylist from parent to folderPlaylist
   useEffect(() => {
-    if (sessionPlaylist && sessionPlaylist.length > 0) {
-      console.log('Setting session playlist:', sessionPlaylist);
+    if (sessionPlaylist && sessionPlaylist.length > 0 && !sessionPlaylistInitialized.current) {
+      sessionPlaylistInitialized.current = true;
       setFolderPlaylist(sessionPlaylist);
       setCurrentPlaylistIndex(0);
-      if (sessionPlaylist[0] && (!currentVideo || currentVideo.id !== sessionPlaylist[0].id)) {
+      if (sessionPlaylist[0]) {
         setCurrentVideo(sessionPlaylist[0]);
       }
       setCurrentPlaylistName('Local Files');
       setShowPlaylist(true);
     }
-  }, [sessionPlaylist, setCurrentVideo, currentVideo]);
+    
+    // Reset initialization flag when sessionPlaylist changes completely
+    if (!sessionPlaylist || sessionPlaylist.length === 0) {
+      sessionPlaylistInitialized.current = false;
+    }
+  }, [sessionPlaylist, setCurrentVideo]);
   // Playlist functions are now handled by PlaylistManager component
   // Load playlist from app store if current video belongs to one
   useEffect(() => {
@@ -621,19 +627,16 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
     }
   }, [currentVideo?.id, setCurrentTime, setDuration]);
 
-  // When switching playlist, load its videos
-
-  // Reset error when switching video
+  // When switching playlist, load its videos  // Reset error when switching video
   useEffect(() => {
     setError(null);
-  }, [currentVideo]);
-  // Listen for show-local-playlist event to always show playlist when triggered from VideoPlayer
+  }, [currentVideo]);  // Listen for show-local-playlist event to always show playlist when triggered from VideoPlayer
   useEffect(() => {
     const handler = () => {
-      console.log('LocalPlayer: Received show-local-playlist event, folderPlaylist length:', folderPlaylist.length);
       if (folderPlaylist.length > 0) {
         setShowPlaylist(true);
-      }    };
+      }
+    };
     window.addEventListener('show-local-playlist', handler);
     return () => window.removeEventListener('show-local-playlist', handler);
   }, [folderPlaylist.length]);
@@ -662,23 +665,19 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
               }}
               onMouseMove={handleMouseMove}
               onMouseLeave={() => !isFullscreen && setShowControls(false)}
-            >
-              <ReactPlayer
+            >              <ReactPlayer
                 ref={playerRef}
                 url={getVideoUrl()}
                 width="100%"
                 height="100%"
                 playing={isPlaying}
                 volume={isMuted ? 0 : volume / 100}
-                playbackRate={playbackRate}
-                onProgress={handleProgress}
+                playbackRate={playbackRate}                onProgress={handleProgress}
                 onDuration={setDuration}
                 onEnded={playNextVideo}
-                onError={(error) => {
-                  console.error('ReactPlayer error:', error);
-                  setError(error);
-                }}
+                onError={setError}
                 onReady={() => setLoading(false)}
+                onStart={() => setLoading(false)}
                 onBuffer={() => setLoading(true)}
                 onBufferEnd={() => setLoading(false)}
                 config={{
@@ -961,9 +960,7 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
                   isPlaylistVisible={showPlaylist}
                 />
               </div>
-            )}          </motion.div>
-
-          {/* Use PlaylistManager for all playlist functionality */}
+            )}          </motion.div>          {/* Use PlaylistManager for all playlist functionality */}
           <AnimatePresence mode="wait">
             {!isFullscreen && (
               <PlaylistManager
@@ -980,9 +977,21 @@ const LocalPlayer = memo(({ sessionPlaylist }) => {
                 currentTime={currentTime}
                 duration={duration}
                 isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
                 currentPlaylistName={currentPlaylistName}
                 setCurrentPlaylistName={setCurrentPlaylistName}
-                formatTime={formatTime}
+                formatTime={formatTime}                onVideoSelect={(video, index) => {
+                  // Use batch state updates to prevent jerky transitions
+                  const updateStates = () => {
+                    setCurrentPlaylistIndex(index);
+                    setCurrentVideo(video);
+                    setIsPlaying(true);
+                  };
+                  
+                  // Use requestAnimationFrame for smoother state transitions
+                  requestAnimationFrame(updateStates);
+                }}
+                onPlayPause={handlePlayPause}
               />
             )}
           </AnimatePresence>
