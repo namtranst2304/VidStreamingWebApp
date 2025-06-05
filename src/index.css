@@ -72,28 +72,33 @@
 
   /* Light Theme Glassmorphism Components */
   .light .glass-card {
-    background: linear-gradient(135deg, rgba(245, 247, 252, 0.82), rgba(235, 238, 245, 0.68));
-    backdrop-filter: blur(48px) saturate(160%);
-    -webkit-backdrop-filter: blur(48px) saturate(160%);
-    border: 1.5px solid rgba(180, 190, 220, 0.13);
+    background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(243,244,246,0.8));
+    -webkit-backdrop-filter: blur(60px) saturate(180%);
+    backdrop-filter: blur(60px) saturate(180%);
+    border: 1px solid rgba(209,213,219,0.5);
     border-radius: 1rem;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.06), 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 -1px 0 rgba(0, 0, 0, 0.02) inset;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.18) inset;
   }
 
   .light .glass-sidebar {
-    background: linear-gradient(180deg, rgba(245, 247, 252, 0.92), rgba(235, 238, 245, 0.82));
-    backdrop-filter: blur(48px) saturate(160%);
-    -webkit-backdrop-filter: blur(48px) saturate(160%);
-    border-right: 1.5px solid rgba(180, 190, 220, 0.10);
-    box-shadow: inset -1px 0 0 rgba(180, 190, 220, 0.04), 2px 0 20px rgba(31, 38, 135, 0.04);
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(243,244,246,0.85));
+    -webkit-backdrop-filter: blur(60px) saturate(180%);
+    backdrop-filter: blur(60px) saturate(180%);
+    border-right: 1px solid rgba(209,213,219,0.4);
+    box-shadow: inset -1px 0 0 rgba(209,213,219,0.18), 2px 0 20px rgba(0,0,0,0.04);
   }
 
   .light .glass-nav {
-    background: linear-gradient(135deg, rgba(245, 247, 252, 0.92), rgba(235, 238, 245, 0.82));
-    backdrop-filter: blur(48px) saturate(160%);
-    -webkit-backdrop-filter: blur(48px) saturate(160%);
-    border: 1.5px solid rgba(180, 190, 220, 0.10);
-    box-shadow: 0 4px 24px rgba(31, 38, 135, 0.04), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(243,244,246,0.85));
+    -webkit-backdrop-filter: blur(60px) saturate(180%);
+    backdrop-filter: blur(60px) saturate(180%);
+    border: 1px solid rgba(209,213,219,0.4);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.15) inset;
+  }
+
+  /* Light Theme - Card/Sidebar/Nav text */
+  .light .glass-card, .light .glass-sidebar, .light .glass-nav {
+    color: #222;
   }
 
   /* Dark Theme Buttons */
@@ -345,21 +350,15 @@
 
   /* Light Theme Video Card */
   .light .video-card {
-    background: rgba(245, 247, 252, 0.85);
-    backdrop-filter: blur(32px) saturate(140%);
-    -webkit-backdrop-filter: blur(32px) saturate(140%);
-    border: 1px solid rgba(180, 190, 220, 0.10);
-    border-radius: 1rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(31, 38, 135, 0.04), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(209,213,219,0.5);
+    color: #222;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
   }
 
   .light .video-card:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(245, 247, 252, 0.98), rgba(235, 238, 245, 0.92));
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
-    border-color: rgba(180, 190, 220, 0.16);
+    background: rgba(243,244,246,0.9);
+    border-color: rgba(209,213,219,0.7);
   }
 
   /* Dark Theme Input Fields */
@@ -391,26 +390,14 @@
 
   /* Light Theme Input Fields */
   .light .input-glass {
-    background: rgba(245, 247, 252, 0.85);
-    border: 1px solid rgba(180, 190, 220, 0.10);
-    border-radius: 0.75rem;
-    color: #23272f;
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    box-shadow: 0 2px 12px rgba(31, 38, 135, 0.04), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+    background: rgba(255,255,255,0.7);
+    color: #222;
+    border: 1px solid rgba(209,213,219,0.5);
   }
 
   .light .input-glass::placeholder {
-    color: rgba(107, 114, 128, 0.8);
+    color: #aaa;
   }
-
-  .light .input-glass:focus {
-    outline: none;
-    border-color: rgba(59, 130, 246, 0.25);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.10), 0 4px 16px rgba(59, 130, 246, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
-    background: rgba(245, 247, 252, 0.98);
-  }
-
   /* Text Color Improvements for Better Readability */
   .light h1, .light h2, .light h3, .light h4, .light h5, .light h6 {
     color: #23272f;

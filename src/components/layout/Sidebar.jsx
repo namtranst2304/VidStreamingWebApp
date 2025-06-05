@@ -100,15 +100,9 @@ const Sidebar = () => {
                 onClick={() => setActiveTab(item.id)}
                 className={`sidebar-item w-full relative flex items-center gap-3 px-5 h-12 rounded-lg z-10 ${isActive ? 'text-white' : 'text-gray-300 hover:bg-white/10'}`}
                 initial={false}
-                whileHover={{
-                  scale: 1.03,
-                  x: 6,
-                  transition: { type: "spring", stiffness: 400, damping: 22, duration: 0.12 }
-                }}
-                whileTap={{
-                  scale: 0.97,
-                  transition: { duration: 0.08 }
-                }}
+                // Không còn hiệu ứng scale/x khi hover
+                whileHover={{}}
+                whileTap={{}}
                 style={{ background: 'transparent', position: 'relative', zIndex: 10, minHeight: 48, height: 48, paddingTop: 0, paddingBottom: 0 }}
               >
                 <Icon className="w-5 h-5 transition-colors duration-150" />

@@ -113,7 +113,7 @@ function App() {
     <div className={`h-screen overflow-hidden transition-all duration-500 ${
       theme === 'dark' 
         ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900' 
-        : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+        : 'bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300'
     }`}>
       <div className="flex h-full">
         <Sidebar />
