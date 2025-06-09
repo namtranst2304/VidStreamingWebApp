@@ -642,9 +642,7 @@ const useAppStore = create(
           watchLater: state.watchLater.filter(id => id !== videoId),
           watchHistory: state.watchHistory.filter(item => item.videoId !== videoId)
         }));
-      },
-
-      // Settings Management
+      },      // Settings Management
       settings: {
         autoplay: true,
         notifications: true,
@@ -655,7 +653,10 @@ const useAppStore = create(
         keyboardShortcuts: true,
         dataSync: true,
         theme: 'dark',
-        language: 'en'
+        language: 'en',
+        reducedMotion: false,
+        highContrast: false,
+        timeFormat: '24h'
       },
       
       updateSettings: (newSettings) => {

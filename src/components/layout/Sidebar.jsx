@@ -119,10 +119,8 @@ const Sidebar = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.5 }}
-      >
-        <motion.h3 
+      >        <motion.h3 
           className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
-          whileHover={{ scale: 1.02 }}
         >
           <Clock className="w-4 h-4" />
           Recent Videos
